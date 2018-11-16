@@ -2,9 +2,7 @@
 # only used as example
 
 def run(graph):
-	for node in graph.nodes():
-		print(node.name())
-		print(node.type())
-		if(node.type == Node.constant):
-			node.remove()
+	for ID,node in graph.nodes.items():
+		if(node.type_string == 'c'):
+			graph.remove(node)
 	return graph

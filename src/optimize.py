@@ -36,8 +36,8 @@ if(not opts):
 
 print('parsing graph')
 graph = Graph(args.infile)
-if('test_opt1' in opts):
-	print('start test optimization 1')
+if('bogus_const_remove' in opts):
+	print('start bogus optimization 1')
 	graph = opt.bogus_const_remove.run(graph)
 
 if('test_opt2' in opts):
