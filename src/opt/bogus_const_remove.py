@@ -4,5 +4,6 @@
 def run(graph):
 	for ID,node in graph.nodes.items():
 		if(node.type_string == 'c'):
-			graph.remove(node)
+			graph.remove_node(node)
+			#return graph
 	return graph

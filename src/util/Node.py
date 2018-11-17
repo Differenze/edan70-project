@@ -1,26 +1,31 @@
-
+import pydot
 
 class Node:
-	dot_string = ''
-	graph_id = ''
-	type_string = ''
-	ID = -1
 
-	
-	def __init__(self, dot_string=None):
-		if dot_string:
-			self.parse(dot_string)
-
-
-	# Parse line from dot file
-	def parse(self, dot_string):
-		dot_string = dot_string.replace('\n', '')
-		self.dot_string = dot_string
-		self.graph_id = dot_string.split()[0]
-		self.type_string = self.graph_id.split('_')[0]
-		self.ID = self.graph_id.split('_')[-1]
+	def __init__(self, pydot_node=None):
+		self.out_edges = []
+		self.in_edges = []
+		if pydot_node:
+			self.parse(pydot_node)
+		else:
+			# TODO allow creating new node
+			print('TODO allow creating node without pydot_node')
 
 
-	# Output this node as dot format
-	def dot_output(self):
-		return dot_string + '\n'
+	def parse(self, pydot_node):
+		self.pydot_node = pydot_node
+		self.ID = pydot_node.get_name()
+		self.type_string = "".join(pydot_node.get_name().split('_')[:-1])
+
+
+	def add_succ(self, edge):
+		self.out_edges.append(edge)
+		#print("add_succ:", str(self), str(edge), len(self.out_edges))
+
+	def add_pred(self, edge):
+		self.in_edges.append(edge)
+		#print("add_pred:", str(self), str(edge), len(self.in_edges))
+
+
+	def __str__(self):
+		return 'Node: %(ID)s %(type_s)s' % ({'ID':self.ID, 'type_s':self.type_string, 'pydot':self.pydot_node})

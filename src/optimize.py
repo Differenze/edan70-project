@@ -3,7 +3,7 @@ import argparse
 import sys
 
 possible_opts=['bogus_const_remove', '...']
-import opt.bogus_const_remove
+import opt.bogus_const_remove as bogus_const_remove
 
 
 
@@ -11,7 +11,7 @@ import opt.bogus_const_remove
 parser=argparse.ArgumentParser()
 parser.add_argument('infile', 
 	metavar='input.dot', 
-	type=file, 
+	type=argparse.FileType('r'), 
 	help='input file to be optimized')
 parser.add_argument('outfile', 
 	metavar='output.dot', 
@@ -38,7 +38,7 @@ print('parsing graph')
 graph = Graph(args.infile)
 if('bogus_const_remove' in opts):
 	print('start bogus optimization 1')
-	graph = opt.bogus_const_remove.run(graph)
+	graph = bogus_const_remove.run(graph)
 
 if('test_opt2' in opts):
 	print('start test optimization 2')
