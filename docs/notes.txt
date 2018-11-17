@@ -1,0 +1,3 @@
+Potentiella optimeringar:
+add x -> sub x
+add/sub/ with constant -> with constant, propagate constant through
