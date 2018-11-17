@@ -28,14 +28,14 @@ args=parser.parse_args()
 
 
 opts = args.opts
-print(opts)
-if(not opts):
-	print('user asked for no optimizations, output identical to input')
-	# TODO output unchanged graph (could be useful for scripting)
-	exit(0)
-
 print('parsing graph')
 graph = Graph(args.infile)
+
+if(not opts):
+	print('user asked for no optimizations, output identical to input')
+	graph.write_to_file(args.outfile)
+	exit(0)
+
 if('bogus_const_remove' in opts):
 	print('start bogus optimization 1')
 	graph = bogus_const_remove.run(graph)

@@ -1,5 +1,6 @@
 # Custom ignores:
 output.dot
+pypy_virtualenv
 
 
 # Byte-compiled / optimized / DLL files
