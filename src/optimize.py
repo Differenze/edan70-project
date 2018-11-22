@@ -2,8 +2,9 @@ from util.Graph import Graph
 import argparse
 import sys
 
-possible_opts=['bogus_const_remove', '...']
+possible_opts=['all', 'bogus_const_remove', 'eq_1']
 import opt.bogus_const_remove as bogus_const_remove
+import opt.eq_1 as eq_1
 
 
 
@@ -23,13 +24,14 @@ parser.add_argument('outfile',
 parser.add_argument('--opts', help='test', type=str, choices=possible_opts, nargs='+')
 
 args=parser.parse_args()
-#print args
-
-
 
 opts = args.opts
+	
 print('parsing graph')
 graph = Graph(args.infile)
+
+if 'all' in opts:
+	opts = possible_opts
 
 if(not opts):
 	print('user asked for no optimizations, output identical to input')
@@ -40,8 +42,8 @@ if('bogus_const_remove' in opts):
 	print('start bogus optimization 1')
 	graph = bogus_const_remove.run(graph)
 
-if('test_opt2' in opts):
-	print('start test optimization 2')
-	#graph = testopt2(graph)
+if('eq_1' in opts):
+	print('start eq_1 optimization')
+	graph = eq_1.run(graph)
 
 graph.write_to_file(args.outfile)

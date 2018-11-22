@@ -1,6 +1,7 @@
 # Custom ignores:
 output.dot
 pypy_virtualenv
+pacopt/*
 
 
 # Byte-compiled / optimized / DLL files

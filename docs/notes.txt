@@ -1,3 +1,12 @@
 Potentiella optimeringar:
 add x -> sub x
 add/sub/ with constant -> with constant, propagate constant through
+
+add 0
+== 1
+!= 0
+
+
+
+
+fpga will do constant propagation, but it might be useful to for pacopt to optimize the graph anyway

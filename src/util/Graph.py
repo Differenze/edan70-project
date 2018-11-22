@@ -45,6 +45,7 @@ class Graph:
 		#print(node.type_string)
 
 	def remove_node(self, node):
+		print('removing:', str(node.pydot_node))
 		for edge in node.out_edges+node.in_edges:
 			self.remove_edge(edge)
 		self.pydot_graph.del_node(node.ID)
@@ -61,3 +62,11 @@ class Graph:
 	def write_to_file(self, file):
 		file.close()
 		self.pydot_graph.write(file.name)
+
+
+	def create_edge(self, tail, head, width, tail_pos=None, head_pos=None, pydot_edge=None):
+		edge = Edge(tail, head, width, tail_pos, head_pos)
+		print('creating edge:', str(edge))
+		print(edge.pydot_edge)
+		self.edges.append(edge)
+		self.pydot_graph.add_edge(edge.pydot_edge)

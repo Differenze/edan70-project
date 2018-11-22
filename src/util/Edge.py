@@ -1,4 +1,5 @@
-
+import regex as re
+import pydot
 # 
 class Edge:
 
@@ -10,6 +11,8 @@ class Edge:
 		self.tail_pos = tail_pos
 		self.head_pos = head_pos
 		self.pydot_edge = pydot_edge
+		if not pydot_edge:
+			self.create_pydot()
 		tail.add_succ(self)
 		head.add_pred(self)
 
@@ -27,8 +30,15 @@ class Edge:
 			head_pos = head[1]
 		tail = nodes[tail_ID]
 		head = nodes[head_ID]
-		width = -1 # TODO!!!
+		width = int(pydot_edge.get_label()[2:-2])
 		return Edge(tail, head, width, tail_pos, head_pos, pydot_edge)
+
+
+	def create_pydot(self):
+		src = self.tail.pydot_node
+		dst = self.head.pydot_node
+		self.pydot_edge = pydot.Edge(src, dst)
+		self.pydot_edge.set_label('"<'+str(self.width)+'>"')
 
 
 	def __str__(self):
