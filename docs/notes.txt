@@ -10,3 +10,5 @@ add 0
 
 
 fpga will do constant propagation, but it might be useful to for pacopt to optimize the graph anyway
+
+Do optimizations based on critical path?

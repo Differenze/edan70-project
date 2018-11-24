@@ -64,3 +64,59 @@ class Node:
 
 	def output_edges(self):
 		return self.out_edges
+
+
+	# use instead of pydot_node.to_string() because we need to order our outputs
+	def dot_string(self):
+		node = self.ID
+		attr_list = ['label', 'shape', 'color', 'style', 'debug']
+		node_attr = []
+
+		for attr in attr_list:
+			if attr in self.pydot_node.obj_dict['attributes']:
+				value = self.pydot_node.obj_dict['attributes'][attr]
+				if value == '':
+					value = '""'
+				if value is not None:
+					node_attr.append('%s=%s' % (attr, pydot.quote_if_necessary(value)))
+
+
+		node_attr = ' '.join(node_attr)
+		if node_attr:
+			node += ' [' + node_attr + ']'
+		return node + ';'
+
+
+#		def to_string(self):
+#        """Return string representation of node in DOT language."""
+#
+#
+#        # RMF: special case defaults for node, edge and graph properties.
+#        #
+#        node = quote_if_necessary(self.obj_dict['name'])
+#
+#        node_attr = list()
+#
+#        for attr in self.obj_dict['attributes']:
+#            value = self.obj_dict['attributes'][attr]
+#            if value == '':
+#                value = '""'
+#            if value is not None:
+#                node_attr.append(
+#                    '%s=%s' % (attr, quote_if_necessary(value) ) )
+#            else:
+#                node_attr.append( attr )
+#
+#
+#        # No point in having nodes setting any defaults if the don't set
+#        # any attributes...
+#        #
+#        if node in ('graph', 'node', 'edge') and len(node_attr) == 0:
+#            return ''
+#
+#        node_attr = ', '.join(node_attr)
+#
+#        if node_attr:
+#            node += ' [' + node_attr + ']'
+#
+#		return node + ';'

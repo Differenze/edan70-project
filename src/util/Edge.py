@@ -41,5 +41,36 @@ class Edge:
 		self.pydot_edge.set_label('"<'+str(self.width)+'>"')
 
 
+	# output as dot format, instead of using pydot
+	# c_2654:out->opeq_2655:right[label="<2>"];
+	def dot_string(self):
+		edge = []
+		edge.append(self.tail.ID)
+		if(self.tail_pos):
+			edge.append(':'+self.tail_pos)
+		edge.append('->')
+		edge.append(self.head.ID)
+		if(self.head_pos):
+			edge.append(':'+self.head_pos)
+
+		attr_list = ['label', 'debug']
+		edge_attr = []
+
+		for attr in attr_list:
+			if attr in self.pydot_edge.obj_dict['attributes']:
+				value = self.pydot_edge.obj_dict['attributes'][attr]
+				if value == '':
+					value = '""'
+				if value is not None:
+					edge_attr.append('%s=%s' % (attr, pydot.quote_if_necessary(value)))
+
+		edge_attr = ', '.join(edge_attr)
+
+		if edge_attr:
+			edge.append('[' + edge_attr + ']')
+
+		return ''.join(edge) + ';'
+
+
 	def __str__(self):
 		return 'Edge: %(tail)s -> %(head)s' % ({'tail':self.tail, 'head':self.head, 'pydot':self.pydot_edge})

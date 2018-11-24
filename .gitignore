@@ -1,7 +1,9 @@
 # Custom ignores:
 output.dot
 pypy_virtualenv
+python2_virtualenv
 pacopt/*
+*.svg
 
 
 # Byte-compiled / optimized / DLL files
