@@ -64,3 +64,8 @@ class Node:
 
 	def output_edges(self):
 		return self.out_edges
+
+	def equals(self, node2):
+		if (self.type_string == node2.type_string):
+			return False
+		return True	

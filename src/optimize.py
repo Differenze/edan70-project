@@ -2,9 +2,10 @@ from util.Graph import Graph
 import argparse
 import sys
 
-possible_opts=['all', 'bogus_const_remove', 'eq_1']
+possible_opts=['all', 'bogus_const_remove', 'eq_1', 'remove_duplicates']
 import opt.bogus_const_remove as bogus_const_remove
 import opt.eq_1 as eq_1
+import opt.remove_duplicates as remove_duplicates
 
 
 
@@ -45,5 +46,9 @@ if('bogus_const_remove' in opts):
 if('eq_1' in opts):
 	print('start eq_1 optimization')
 	graph = eq_1.run(graph)
+
+if('remove_duplicates' in opts):
+	print('start remove_duplicates optimization')
+	graph = remove_duplicates.run(graph)
 
 graph.write_to_file(args.outfile)
