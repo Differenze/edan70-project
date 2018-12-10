@@ -31,13 +31,13 @@ opts = args.opts
 print('parsing graph')
 graph = Graph(args.infile)
 
-if 'all' in opts:
-	opts = possible_opts
-
 if(not opts):
 	print('user asked for no optimizations, output identical to input')
 	graph.write_to_file(args.outfile)
 	exit(0)
+
+if 'all' in opts:
+	opts = possible_opts
 
 if('bogus_const_remove' in opts):
 	print('start bogus optimization 1')

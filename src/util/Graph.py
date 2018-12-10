@@ -30,6 +30,7 @@ class Graph:
 			self.edge(edge)
 
 
+
 	def edge(self, pydot_edge):
 		# TODO order edges by head/tail
 		edge = Edge.new_from_pydot(pydot_edge, self.nodes)
@@ -38,6 +39,8 @@ class Graph:
 
 	def node(self, pydot_edge):
 		node = Node(pydot_edge)
+		if node.ID == 'node':
+			return;
 		if node.ID in self.nodes:
 			print('ERROR: Node ID\'s are not unique!:', node, self.nodes[node.ID])
 			exit(-1)
@@ -45,28 +48,34 @@ class Graph:
 		#print(node.type_string)
 
 	def remove_node(self, node):
-		print('removing:', str(node.pydot_node))
+		#print('removing:', str(node.pydot_node))
 		for edge in node.out_edges+node.in_edges:
 			self.remove_edge(edge)
-		self.pydot_graph.del_node(node.ID)
 		self.nodes.pop(node.ID)
 
 	def remove_edge(self, edge):
-		print('removing:', str(edge.pydot_edge))
-		if self.pydot_graph.del_edge(edge.pydot_edge.get_source(), edge.pydot_edge.get_destination()):
+		#print('removing:', str(edge.pydot_edge))
+		if edge in self.edges:
+			self.edges.remove(edge)
 			return
 		else:
 			print('could not delete:', edge.pydot_edge.get_source(), edge.pydot_edge.get_destination())
-		# TODO? self.edges.remove(edge)
 
 	def write_to_file(self, file):
-		file.close()
-		self.pydot_graph.write(file.name)
+		#file.close()
+		#self.pydot_graph.write(file.name)
+		file.write('digraph packetarc {\n')
+		file.write('node [shape=record];\n')
+		for node in self.nodes.values():
+			file.write(node.dot_string() + '\n')
+		for edge in self.edges:
+			file.write(edge.dot_string() + '\n')
+		file.write('}\n')
 
 
 	def create_edge(self, tail, head, width, tail_pos=None, head_pos=None, pydot_edge=None):
 		edge = Edge(tail, head, width, tail_pos, head_pos)
-		print('creating edge:', str(edge))
-		print(edge.pydot_edge)
+		#print('creating edge:', str(edge))
+		#print(edge.pydot_edge)
 		self.edges.append(edge)
 		self.pydot_graph.add_edge(edge.pydot_edge)
