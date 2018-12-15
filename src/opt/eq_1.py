@@ -14,8 +14,12 @@ def run(graph):
 			if le.width == 1 and re.width == 1:
 				if(le.tail.is_constant() and le.tail.constant_value() == cval):
 					del_node(re, node, graph)
+					if len(le.tail.output_edges()):
+						graph.remove_node(le.tail)
 				elif(re.tail.is_constant() and re.tail.constant_value() == cval):
 					del_node(le, node, graph)
+					if len(re.tail.output_edges()):
+						graph.remove_node(re.tail)
 	return graph
 
 
