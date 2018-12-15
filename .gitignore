@@ -5,6 +5,7 @@ python2_virtualenv
 pacopt/*
 *.svg
 
+*.idea/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
