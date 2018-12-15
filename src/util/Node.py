@@ -18,7 +18,6 @@ class Node:
 		self.type_string = "".join(pydot_node.get_name().split('_')[:-1])
 		self.label = pydot_node.get_label()
 
-
 	def add_succ(self, edge):
 		self.out_edges.append(edge)
 		#print("add_succ:", str(self), str(edge), len(self.out_edges))
@@ -64,13 +63,6 @@ class Node:
 
 	def output_edges(self):
 		return self.out_edges
-
-
-	def equals(self, node2):
-		if (self.type_string == node2.type_string):
-			return False
-		return True	
-
 
 	# use instead of pydot_node.to_string() because we need to order our outputs
 	def dot_string(self):
