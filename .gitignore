@@ -4,6 +4,7 @@ pypy_virtualenv
 python2_virtualenv
 pacopt/*
 *.svg
+*_sorted*
 
 *.idea/*
 

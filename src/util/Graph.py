@@ -56,10 +56,14 @@ class Graph:
 	def remove_edge(self, edge):
 		#print('removing:', str(edge.pydot_edge))
 		if edge in self.edges:
+			# remove edge from successor and predecessor
+			# TODO check that they exist maybe?
+			edge.head.in_edges.remove(edge)
+			edge.tail.out_edges.remove(edge)
 			self.edges.remove(edge)
 			return
 		else:
-			print('could not delete:', edge.pydot_edge.get_source(), edge.pydot_edge.get_destination())
+			print('edge not in graph_edges', edge.pydot_edge.get_source(), edge.pydot_edge.get_destination())
 
 	def write_to_file(self, file):
 		#file.close()

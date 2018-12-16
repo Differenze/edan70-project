@@ -5,8 +5,8 @@ class Edge:
 
 	#  tail->head
 	def __init__(self, tail, head, width, tail_pos=None, head_pos=None, pydot_edge=None):
-		self.tail = tail
-		self.head = head
+		self.tail = tail # Node object
+		self.head = head # Node object
 		self.width = width
 		self.tail_pos = tail_pos
 		self.head_pos = head_pos

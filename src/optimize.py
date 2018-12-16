@@ -51,4 +51,5 @@ if('remove_duplicates' in opts):
 	print('start remove_duplicates optimization')
 	graph = remove_duplicates.run(graph)
 
+print('writing to file:', args.outfile)
 graph.write_to_file(args.outfile)
