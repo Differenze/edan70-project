@@ -1,22 +1,36 @@
 import pydot
+# str 			ID 				what this node is called
+# [Edge]		out_edges 		edges leaving this node
+# [Edge]		in_edges 		edges entering this node
+# str 			type_string		what type is this node, e.g. ADD/SUB/C
+
 
 class Node:
 
-	def __init__(self, pydot_node=None):
+	def __init__(self, type_string, ID, label):
 		self.out_edges = []
 		self.in_edges = []
-		if pydot_node:
-			self.parse(pydot_node)
-		else:
-			# TODO allow creating new node
-			print('TODO allow creating node without pydot_node')
+		self.ID = ID
+		self.type_string = type_string
+		self.label = label
+		self.obj_dict = {}
+		self.obj_dict['attributes'] = {}
 
 
-	def parse(self, pydot_node):
-		self.pydot_node = pydot_node
-		self.ID = pydot_node.get_name()
-		self.type_string = "".join(pydot_node.get_name().split('_')[:-1])
-		self.label = pydot_node.get_label()
+	@staticmethod
+	def new_node_from_pydot(pydot_node):
+		ID = pydot_node.get_name()
+		type_string = "".join(pydot_node.get_name().split('_')[:-1])
+		label = pydot_node.get_label()
+		node = Node(type_string, ID, label)
+		node.obj_dict = pydot_node.obj_dict
+		return node
+
+	# def parse(self, pydot_node):
+	# 	self.ID = pydot_node.get_name()
+	# 	print('old', self.ID)
+	# 	self.type_string = "".join(pydot_node.get_name().split('_')[:-1])
+	# 	self.label = pydot_node.get_label()
 
 	def add_succ(self, edge):
 		self.out_edges.append(edge)
@@ -28,7 +42,7 @@ class Node:
 
 
 	def __str__(self):
-		return 'Node: %(ID)s %(type_s)s' % ({'ID':self.ID, 'type_s':self.type_string, 'pydot':self.pydot_node})
+		return 'Node: %(ID)s %(type_s)s' % ({'ID':self.ID, 'type_s':self.type_string})
 
 	def input_edges(self):
 		return self.in_edges;
@@ -55,11 +69,13 @@ class Node:
 			print('ERR calling constant_value on a node which isn\'t constant')
 
 
+	# returns nodes which are behind self
 	def output_nodes(self):
 		ret = []
 		for edge in self.out_edges:
 			ret.append(edge.head)
 		return ret
+
 
 	def output_edges(self):
 		return self.out_edges
@@ -71,8 +87,8 @@ class Node:
 		node_attr = []
 
 		for attr in attr_list:
-			if attr in self.pydot_node.obj_dict['attributes']:
-				value = self.pydot_node.obj_dict['attributes'][attr]
+			if attr in self.obj_dict['attributes']:
+				value = self.obj_dict['attributes'][attr]
 				if value == '':
 					value = '""'
 				if value is not None:
