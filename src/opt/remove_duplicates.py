@@ -6,18 +6,48 @@ def run(graph):
 
 #returns true if a duplicate was removed, else false
 def remove_duplicate(graph):
+	worklist = []
 	for ID,node1 in graph.nodes.items():
-		for ID2,node2 in graph.nodes.items():
-			if (ID in graph.nodes.keys() and ID2 in graph.nodes.keys() and ID != ID2 and node_equals(node1,node2)):
-				if(node1.type_string not in ["out" , "in", 'c']):
-					print("duplicate found with ID1: "+ID+", ID2: ", ID2)
-					#replacing edges
-					for edge2 in node2.out_edges:
-						edge1 = Edge.Edge(node1, edge2.head, edge2.width, None, edge2.head_pos, None)
-						print("adding succ")
-						node1.add_succ(edge1)
-						graph.edges.append(edge1)
-					graph.remove_node(node2)
+		if (len(node1.in_edges)>20 and node1.type_string == 'bitconcat'):
+			continue
+		for pred in node1.in_edges:
+			for succ in pred.tail.out_edges:
+				node2 = succ.head
+				if (node_equals(node1,node2) and ID in graph.nodes.keys() and node1 != node2):
+					if(node1.type_string not in ["out" , "in", 'c']):
+						print("duplicate found with ID1: "+ID)
+						#replacing edges
+						for edge2 in node2.out_edges:
+							edge1 = Edge.Edge(node1, edge2.head, edge2.width, None, edge2.head_pos, None)
+							print("adding succ")
+							node1.add_succ(edge1)
+							worklist.append(edge2.head)
+							graph.edges.append(edge1)
+						graph.remove_node(node2)
+
+	print('starting worklist')
+	while worklist:	
+		node = worklist.pop()
+		if (len(node.in_edges)>20 and node.type_string == 'bitconcat'):
+			continue
+		for pred in node.in_edges:
+			for succ in pred.tail.out_edges:
+				node2 = succ.head
+				if (node_equals(node1,node2) and ID in graph.nodes.keys() and node1 != node2):
+					if(node1.type_string not in ["out" , "in", 'c']):
+						print("duplicate found with ID1: "+ID)
+						#replacing edges
+						for edge2 in node2.out_edges:
+							edge1 = Edge.Edge(node1, edge2.head, edge2.width, None, edge2.head_pos, None)
+							print("adding succ")
+							node1.add_succ(edge1)
+							worklist.append(edge2.head)
+							graph.edges.append(edge1)
+						graph.remove_node(node2)
+
+
+			
+
 	
 
 #returns true if both nodes always have the same output

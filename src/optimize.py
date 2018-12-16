@@ -5,6 +5,7 @@ import sys
 possible_opts=['all', 'eq_1', 'remove_duplicates', 'const_prop']
 import opt.eq_1 as eq_1
 import opt.remove_duplicates as remove_duplicates
+import opt.insert_shift as insert_shift
 import opt.const_prop as const_prop
 
 
@@ -46,6 +47,10 @@ if('eq_1' in opts):
 if('remove_duplicates' in opts):
 	print('start remove_duplicates optimization')
 	graph = remove_duplicates.run(graph)
+
+if('in_shift' in opts):
+	print('starting insert shift optimization')
+	graph = insert_shift.run(graph)
 
 if('const_prop' in opts):
 	print('start const_prop optimization')
