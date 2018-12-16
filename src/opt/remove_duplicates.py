@@ -1,16 +1,14 @@
 import util.Edge as Edge
 
 def run(graph):
-	while True:
-		if not remove_duplicate(graph):
-			break
+	remove_duplicate(graph)
 	return graph
 
 #returns true if a duplicate was removed, else false
 def remove_duplicate(graph):
 	for ID,node1 in graph.nodes.items():
 		for ID2,node2 in graph.nodes.items():
-			if (ID != ID2 and node_equals(node1,node2)):
+			if (ID in graph.nodes.keys() and ID2 in graph.nodes.keys() and ID != ID2 and node_equals(node1,node2)):
 				if(node1.type_string not in ["out" , "in", 'c']):
 					print("duplicate found with ID1: "+ID+", ID2: ", ID2)
 					#replacing edges
@@ -20,8 +18,7 @@ def remove_duplicate(graph):
 						node1.add_succ(edge1)
 						graph.edges.append(edge1)
 					graph.remove_node(node2)
-					return True
-	return False
+	
 
 #returns true if both nodes always have the same output
 def node_equals(node1, node2):
