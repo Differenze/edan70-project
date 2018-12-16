@@ -5,11 +5,8 @@ import sys
 possible_opts=['all', 'eq_1', 'remove_duplicates', 'const_prop']
 import opt.eq_1 as eq_1
 import opt.remove_duplicates as remove_duplicates
-<<<<<<< HEAD
 import opt.insert_shift as insert_shift
-=======
 import opt.const_prop as const_prop
->>>>>>> 3ab3f6e4f26c16dbbf3d81760a1279466234fb9c
 
 
 
