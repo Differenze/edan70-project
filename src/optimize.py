@@ -5,6 +5,7 @@ import sys
 possible_opts=['all', 'eq_1', 'remove_duplicates']
 import opt.eq_1 as eq_1
 import opt.remove_duplicates as remove_duplicates
+import opt.insert_shift as insert_shift
 
 
 
@@ -49,6 +50,10 @@ if('eq_1' in opts):
 if('remove_duplicates' in opts):
 	print('start remove_duplicates optimization')
 	graph = remove_duplicates.run(graph)
+
+if('in_shift' in opts):
+	print('starting insert shift optimization')
+	graph = insert_shift.run(graph)
 
 print('writing to file:', args.outfile)
 graph.write_to_file(args.outfile)
