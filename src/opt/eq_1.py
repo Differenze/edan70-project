@@ -6,6 +6,7 @@
 # out = x<1> != 0<1>
 
 def run(graph):
+	deleted_nodes = 0
 	for ID,node in graph.nodes.items():
 		if(node.type_string == 'opeq' or node.type_string == 'opne'):
 			cval = 1 if node.type_string == 'opeq' else 0
@@ -20,10 +21,12 @@ def run(graph):
 					del_node(le, node, graph)
 					if len(re.tail.output_edges()):
 						graph.remove_node(re.tail)
+	print('Deleted ', deleted_nodes, ' nodes.')
 	return graph
 
 
 def del_node(inp_edge, node, graph):
+	deleted_nodes += 1
 	inp_node = inp_edge.tail
 	for out_edge in node.output_edges():
 		out_node = out_edge.head
