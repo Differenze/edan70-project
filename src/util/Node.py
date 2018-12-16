@@ -4,17 +4,31 @@ import pydot
 # [Edge]		in_edges 		edges entering this node
 # str 			type_string		what type is this node, e.g. ADD/SUB/C
 
+DEFAULT_LABELS = {
+	'opadd' : '{{<left> left | <right> right} | <out> add}',
+	'opsub' : '{{<left> left | <right> right} | <out> add}',
+}
 
 class Node:
+	MAX_ID = 0
 
-	def __init__(self, type_string, ID, label):
+	def __init__(self, type_string, ID=None, label=None):
 		self.out_edges = []
 		self.in_edges = []
 		self.ID = ID
+		if not ID:
+			Node.MAX_ID += 1
+			self.ID = type_string+'_'+str(Node.MAX_ID)
 		self.type_string = type_string
 		self.label = label
+		if not label:
+			if type_string not in DEFAULT_LABELS:
+				print("No default label found for this type: ", type_string) # look at type_string and use a default?
+				exit(-1)
+			self.label = DEFAULT_LABELS[type_string]
 		self.obj_dict = {}
 		self.obj_dict['attributes'] = {}
+		self.obj_dict['attributes']['label'] = self.label
 
 
 	@staticmethod
@@ -24,13 +38,10 @@ class Node:
 		label = pydot_node.get_label()
 		node = Node(type_string, ID, label)
 		node.obj_dict = pydot_node.obj_dict
+		idnum = int(ID.split('_')[1:][0])
+		if idnum > Node.MAX_ID:
+			Node.MAX_ID = idnum
 		return node
-
-	# def parse(self, pydot_node):
-	# 	self.ID = pydot_node.get_name()
-	# 	print('old', self.ID)
-	# 	self.type_string = "".join(pydot_node.get_name().split('_')[:-1])
-	# 	self.label = pydot_node.get_label()
 
 	def add_succ(self, edge):
 		self.out_edges.append(edge)
