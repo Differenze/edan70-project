@@ -2,8 +2,7 @@ from util.Graph import Graph
 import argparse
 import sys
 
-possible_opts=['all', 'bogus_const_remove', 'eq_1', 'remove_duplicates']
-import opt.bogus_const_remove as bogus_const_remove
+possible_opts=['all', 'eq_1', 'remove_duplicates']
 import opt.eq_1 as eq_1
 import opt.remove_duplicates as remove_duplicates
 
