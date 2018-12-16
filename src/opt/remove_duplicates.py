@@ -11,7 +11,7 @@ def remove_duplicate(graph):
 	for ID,node1 in graph.nodes.items():
 		for ID2,node2 in graph.nodes.items():
 			if (ID != ID2 and node_equals(node1,node2)):
-				if(node1.type_string not in ["out" , "in"]):
+				if(node1.type_string not in ["out" , "in", 'c']):
 					print("duplicate found with ID1: "+ID+", ID2: ", ID2)
 					#replacing edges
 					for edge2 in node2.out_edges:
