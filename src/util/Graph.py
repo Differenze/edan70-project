@@ -37,15 +37,18 @@ class Graph:
 		self.edges.append(edge)
 
 
-	def node(self, pydot_edge):
-		node = Node(pydot_edge)
+	def node(self, pydot_node):
+		node = Node.new_node_from_pydot(pydot_node)
 		if node.ID == 'node':
 			return;
 		if node.ID in self.nodes:
-			print('ERROR: Node ID\'s are not unique!:', node, self.nodes[node.ID])
+			print(node.ID)
+			print(self.nodes[node.ID].ID)
+			print('ERROR: Node ID\'s are not unique!:', str(node), str(self.nodes[node.ID]))
 			exit(-1)
 		self.nodes[node.ID] = node
 		#print(node.type_string)
+
 
 	def remove_node(self, node):
 		#print('removing:', str(node.pydot_node))
@@ -79,7 +82,7 @@ class Graph:
 
 	def create_edge(self, tail, head, width, tail_pos=None, head_pos=None, pydot_edge=None):
 		edge = Edge(tail, head, width, tail_pos, head_pos)
-		#print('creating edge:', str(edge))
-		#print(edge.pydot_edge)
+		print('creating edge:', str(edge))
+		print(edge.dot_string())
 		self.edges.append(edge)
-		self.pydot_graph.add_edge(edge.pydot_edge)
+		#self.pydot_graph.add_edge(edge.pydot_edge)

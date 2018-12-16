@@ -10,9 +10,12 @@ class Edge:
 		self.width = width
 		self.tail_pos = tail_pos
 		self.head_pos = head_pos
-		self.pydot_edge = pydot_edge
-		if not pydot_edge:
-			self.create_pydot()
+		self.obj_dict = {}
+		self.obj_dict['attributes'] = {}
+		self.obj_dict['attributes']['label'] = '"<'+str(width)+'>"'
+		# self.pydot_edge = pydot_edge
+		# if not pydot_edge:
+		# 	self.create_pydot()
 		tail.add_succ(self)
 		head.add_pred(self)
 
@@ -31,14 +34,16 @@ class Edge:
 		tail = nodes[tail_ID]
 		head = nodes[head_ID]
 		width = int(pydot_edge.get_label()[2:-2])
-		return Edge(tail, head, width, tail_pos, head_pos, pydot_edge)
+		edge = Edge(tail, head, width, tail_pos, head_pos, pydot_edge)
+		edge.obj_dict = pydot_edge.obj_dict
+		return edge
 
 
-	def create_pydot(self):
-		src = self.tail.pydot_node
-		dst = self.head.pydot_node
-		self.pydot_edge = pydot.Edge(src, dst)
-		self.pydot_edge.set_label('"<'+str(self.width)+'>"')
+	# def create_pydot(self):
+	# 	src = self.tail.pydot_node
+	# 	dst = self.head.pydot_node
+	# 	self.pydot_edge = pydot.Edge(src, dst)
+	# 	self.pydot_edge.set_label('"<'+str(self.width)+'>"')
 
 
 	# output as dot format, instead of using pydot
@@ -57,8 +62,8 @@ class Edge:
 		edge_attr = []
 
 		for attr in attr_list:
-			if attr in self.pydot_edge.obj_dict['attributes']:
-				value = self.pydot_edge.obj_dict['attributes'][attr]
+			if attr in self.obj_dict['attributes']:
+				value = self.obj_dict['attributes'][attr]
 				if value == '':
 					value = '""'
 				if value is not None:
@@ -73,4 +78,4 @@ class Edge:
 
 
 	def __str__(self):
-		return 'Edge: %(tail)s -> %(head)s' % ({'tail':self.tail, 'head':self.head, 'pydot':self.pydot_edge})
+		return 'Edge: %(tail)s -> %(head)s' % ({'tail':self.tail, 'head':self.head})

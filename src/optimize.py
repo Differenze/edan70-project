@@ -2,10 +2,14 @@ from util.Graph import Graph
 import argparse
 import sys
 
-possible_opts=['all', 'eq_1', 'remove_duplicates']
+possible_opts=['all', 'eq_1', 'remove_duplicates', 'const_prop']
 import opt.eq_1 as eq_1
 import opt.remove_duplicates as remove_duplicates
+<<<<<<< HEAD
 import opt.insert_shift as insert_shift
+=======
+import opt.const_prop as const_prop
+>>>>>>> 3ab3f6e4f26c16dbbf3d81760a1279466234fb9c
 
 
 
@@ -39,10 +43,6 @@ if(not opts):
 if 'all' in opts:
 	opts = possible_opts
 
-if('bogus_const_remove' in opts):
-	print('start bogus optimization 1')
-	graph = bogus_const_remove.run(graph)
-
 if('eq_1' in opts):
 	print('start eq_1 optimization')
 	graph = eq_1.run(graph)
@@ -54,6 +54,10 @@ if('remove_duplicates' in opts):
 if('in_shift' in opts):
 	print('starting insert shift optimization')
 	graph = insert_shift.run(graph)
+
+if('const_prop' in opts):
+	print('start const_prop optimization')
+	graph = const_prop.run(graph)
 
 print('writing to file:', args.outfile)
 graph.write_to_file(args.outfile)
