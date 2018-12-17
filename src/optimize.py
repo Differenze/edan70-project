@@ -2,11 +2,13 @@ from util.Graph import Graph
 import argparse
 import sys
 
-possible_opts=['all', 'eq_1', 'remove_duplicates', 'const_prop']
+possible_opts=['all', 'eq_1', 'remove_duplicates', 'in_shift', 'const_prop', 'alg_simp', 'tree_height_red']
 import opt.eq_1 as eq_1
 import opt.remove_duplicates as remove_duplicates
 import opt.insert_shift as insert_shift
 import opt.const_prop as const_prop
+import opt.alg_simp as alg_simp
+import opt.tree_height_reduction as tree_height_reduction
 
 
 
@@ -55,6 +57,14 @@ if('in_shift' in opts):
 if('const_prop' in opts):
 	print('start const_prop optimization')
 	graph = const_prop.run(graph)
+
+if('alg_simp' in opts):
+	print('starting alebraic simplification optimization')
+	graph = alg_simp.run(graph)
+
+if('tree_height_red' in opts):
+	print('starting tree height reduction optimization')
+	graph = tree_height_reduction.run(graph)
 
 print('writing to file:', args.outfile)
 graph.write_to_file(args.outfile)

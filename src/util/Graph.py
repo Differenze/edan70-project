@@ -82,7 +82,7 @@ class Graph:
 
 	def create_edge(self, tail, head, width, tail_pos=None, head_pos=None, pydot_edge=None):
 		edge = Edge(tail, head, width, tail_pos, head_pos)
-		print('creating edge:', str(edge))
-		print(edge.dot_string())
+		#print('creating edge:', str(edge))
+		#print(edge.dot_string())
 		self.edges.append(edge)
 		#self.pydot_graph.add_edge(edge.pydot_edge)
