@@ -13,16 +13,13 @@ def remove_duplicate(graph):
 		for pred in node1.in_edges:
 			for succ in pred.tail.out_edges:
 				node2 = succ.head
-				if (node_equals(node1,node2) and ID in graph.nodes.keys() and node1 != node2):
+				if (node_equals(node1,node2) and ID in graph.nodes.keys() and node2.ID in graph.nodes.keys() and node1 != node2):
 					if(node1.type_string not in ["out" , "in", 'c']):
 						print("duplicate found with ID1: "+ID)
 						#replacing edges
 						for edge2 in node2.out_edges:
-							edge1 = Edge.Edge(node1, edge2.head, edge2.width, None, edge2.head_pos, None)
-							print("adding succ")
-							node1.add_succ(edge1)
+							edge1 = graph.create_edge(node1, edge2.head, edge2.width, edge2.head_pos)
 							worklist.append(edge2.head)
-							graph.edges.append(edge1)
 						graph.remove_node(node2)
 
 	print('starting worklist')
@@ -33,18 +30,14 @@ def remove_duplicate(graph):
 		for pred in node.in_edges:
 			for succ in pred.tail.out_edges:
 				node2 = succ.head
-				if (node_equals(node1,node2) and ID in graph.nodes.keys() and node1 != node2):
+				if (node_equals(node1,node2) and ID in graph.nodes.keys() and node2.ID in graph.nodes.keys() and node1 != node2):
 					if(node1.type_string not in ["out" , "in", 'c']):
 						print("duplicate found with ID1: "+ID)
 						#replacing edges
 						for edge2 in node2.out_edges:
-							edge1 = Edge.Edge(node1, edge2.head, edge2.width, None, edge2.head_pos, None)
-							print("adding succ")
-							node1.add_succ(edge1)
+							edge1 = graph.create_edge(node1, edge2.head, edge2.width, edge2.head_pos)
 							worklist.append(edge2.head)
-							graph.edges.append(edge1)
 						graph.remove_node(node2)
-
 
 			
 
