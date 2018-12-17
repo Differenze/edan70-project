@@ -1,15 +1,19 @@
 digraph packetarc {
 node [shape=record];
+opsub_408 [label="{{<left> left | <right> right} | <out> sub}"];
+in_305 [label="input 301"];
+c_409 [label="17" shape=plaintext color=red style=filled];
 in_300 [label="input 300"];
-
-c_202 [label="2" shape=plaintext color="red" style="filled"];
-
-opsub_101 [label="{{<left> left | <right> right} | <out> sub}" debug="25454 1"];
-
-out_400 [label="output 400"];
-
-in_300->opsub_101:left[label="<4>"];
-c_202->opsub_101:right[label="<4>"];
-
-opsub_101:out->out_400[label="<4>"];
+c_200 [label="8" shape=plaintext color="red" style="filled"];
+out_403 [label="output 403"];
+out_401 [label="output 401"];
+opadd_101 [label="{{<left> left | <right> right} | <out> add}" debug="25454 1"];
+out_405 [label="output 405"];
+in_300->opadd_101:left[label="<4>"];
+c_200->opadd_101:right[label="<4>"];
+opadd_101:out->out_401[label="<4>"];
+in_305:out->out_405[label="<5>"];
+in_300->opsub_408:right[label="<5>"];
+c_409->opsub_408:left[label="<5>"];
+opsub_408:out->out_403[label="<5>"];
 }

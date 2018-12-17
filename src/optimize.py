@@ -42,11 +42,11 @@ if 'all' in opts:
 
 if('eq_1' in opts):
 	print('start eq_1 optimization')
-	graph = eq_1.run(graph)
+	eq_1.run(graph)
 
 if('remove_duplicates' in opts):
 	print('start remove_duplicates optimization')
-	graph = remove_duplicates.run(graph)
+	remove_duplicates.run(graph)
 
 if('in_shift' in opts):
 	print('starting insert shift optimization')
@@ -54,7 +54,7 @@ if('in_shift' in opts):
 
 if('const_prop' in opts):
 	print('start const_prop optimization')
-	graph = const_prop.run(graph)
+	const_prop.run(graph)
 
 print('writing to file:', args.outfile)
 graph.write_to_file(args.outfile)

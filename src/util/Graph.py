@@ -82,17 +82,24 @@ class Graph:
 
 	def create_edge(self, tail, head, width, tail_pos=None, head_pos=None, pydot_edge=None):
 		edge = Edge(tail, head, width, tail_pos, head_pos)
-		print('creating edge:', str(edge))
-		print(edge.dot_string())
 		self.edges.append(edge)
 		#self.pydot_graph.add_edge(edge.pydot_edge)
 
 	def create_node(self, type_string):
 		node = Node(type_string)
 		if node.ID in self.nodes:
-			print(node.ID)
-			print(self.nodes[node.ID].ID)
 			print('ERROR: Node ID\'s are not unique!:', str(node), str(self.nodes[node.ID]))
 			exit(-1)
 		self.nodes[node.ID] = node
+		return node
+
+	# create a constant node with given value
+	def create_constant(self, value):
+		node = self.create_node('c')
+		# c_128 [label="0" shape=plaintext color="red" style="filled"];
+		node.set_label('"'+str(value)+'"')
+		node.set_attrib('shape', 'plaintext')
+		node.set_attrib('color', 'red')
+		node.set_attrib('style', 'filled')
+
 		return node

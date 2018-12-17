@@ -6,7 +6,8 @@ import pydot
 
 DEFAULT_LABELS = {
 	'opadd' : '{{<left> left | <right> right} | <out> add}',
-	'opsub' : '{{<left> left | <right> right} | <out> add}',
+	'opsub' : '{{<left> left | <right> right} | <out> sub}',
+	'c'		: 'USE Graph.create_constant for sane defaults'
 }
 
 class Node:
@@ -53,7 +54,7 @@ class Node:
 
 
 	def __str__(self):
-		return 'Node: %(ID)s %(type_s)s' % ({'ID':self.ID, 'type_s':self.type_string})
+		return 'Node: %(ID)s %(type_s)s %(label)s' % ({'ID':self.ID, 'type_s':self.type_string, 'label':self.label})
 
 	def input_edges(self):
 		return self.in_edges;
@@ -111,6 +112,11 @@ class Node:
 			node += ' [' + node_attr + ']'
 		return node + ';'
 
+	def set_label(self, value):
+		self.label=value
+		self.set_attrib('label', value)
+	def set_attrib(self, attrib, value):
+		self.obj_dict['attributes'][attrib] = value
 
 #		def to_string(self):
 #        """Return string representation of node in DOT language."""
