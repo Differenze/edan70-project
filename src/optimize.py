@@ -25,44 +25,44 @@ parser.add_argument('outfile',
 	help='output file, output.dot by default', 
 	nargs='?')
 
-parser.add_argument('--opts', help='test', type=str, choices=possible_opts, nargs='+')
+#parser.add_argument('--opts', help='test', type=str, choices=possible_opts, nargs='+')
+parser.add_argument('--all', action='store_true')
+parser.add_argument('--eq_1', action='store_true')
+parser.add_argument('--remove_duplicates', action='store_true')
+parser.add_argument('--in_shift', action='store_true')
+parser.add_argument('--const_prop', action='store_true')
+parser.add_argument('--alg_simp', action='store_true')
+parser.add_argument('--tree_height_reduction', action='store_true')
 
 args=parser.parse_args()
 
-opts = args.opts
+if args.all:
+	print('ALL')
 	
 print('parsing graph')
 graph = Graph(args.infile)
 
-if(not opts):
-	print('user asked for no optimizations, output identical to input')
-	graph.write_to_file(args.outfile)
-	exit(0)
-
-if 'all' in opts:
-	opts = possible_opts
-
-if('eq_1' in opts):
+if(args.all or args.eq_1):
 	print('start eq_1 optimization')
 	eq_1.run(graph)
 
-if('remove_duplicates' in opts):
+if(args.all or args.remove_duplicates):
 	print('start remove_duplicates optimization')
 	remove_duplicates.run(graph)
 
-if('in_shift' in opts):
+if(args.all or args.in_shift):
 	print('starting insert shift optimization')
 	insert_shift.run(graph)
 
-if('const_prop' in opts):
+if(args.all or args.const_prop):
 	print('start const_prop optimization')
 	const_prop.run(graph)
 
-if('alg_simp' in opts):
+if(args.all or args.alg_simp):
 	print('starting alebraic simplification optimization')
 	alg_simp.run(graph)
 
-if('tree_height_red' in opts):
+if(args.all or args.tree_height_reduction):
 	print('starting tree height reduction optimization')
 	tree_height_reduction.run(graph)
 
