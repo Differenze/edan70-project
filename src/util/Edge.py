@@ -78,4 +78,4 @@ class Edge:
 
 
 	def __str__(self):
-		return 'Edge: %(tail)s -> %(head)s' % ({'tail':self.tail, 'head':self.head})
+		return 'Edge: %(tail)s <%(width)s>-> %(head)s' % ({'tail':self.tail, 'head':self.head, 'width':self.width})

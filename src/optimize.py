@@ -2,11 +2,11 @@ from util.Graph import Graph
 import argparse
 import sys
 
-possible_opts=['all', 'eq_1', 'remove_duplicates', 'in_shift', 'const_prop', 'alg_simp', 'tree_height_red']
+
 import opt.eq_1 as eq_1
 import opt.remove_duplicates as remove_duplicates
 import opt.insert_shift as insert_shift
-import opt.const_prop as const_prop
+import opt.const_merging as const_merging
 import opt.alg_simp as alg_simp
 import opt.tree_height_reduction as tree_height_reduction
 
@@ -30,7 +30,7 @@ parser.add_argument('--all', action='store_true')
 parser.add_argument('--eq_1', action='store_true')
 parser.add_argument('--remove_duplicates', action='store_true')
 parser.add_argument('--in_shift', action='store_true')
-parser.add_argument('--const_prop', action='store_true')
+parser.add_argument('--const_merging', action='store_true')
 parser.add_argument('--alg_simp', action='store_true')
 parser.add_argument('--tree_height_reduction', action='store_true')
 
@@ -54,9 +54,9 @@ if(args.all or args.in_shift):
 	print('starting insert shift optimization')
 	insert_shift.run(graph)
 
-if(args.all or args.const_prop):
-	print('start const_prop optimization')
-	const_prop.run(graph)
+if(args.all or args.const_merging):
+	print('start const_merging optimization')
+	const_merging.run(graph)
 
 if(args.all or args.alg_simp):
 	print('starting alebraic simplification optimization')
