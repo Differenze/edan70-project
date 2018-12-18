@@ -14,6 +14,7 @@ class Node:
 	MAX_ID = 0
 
 	def __init__(self, type_string, ID=None, label=None):
+		self.visited = False 
 		self.out_edges = []
 		self.in_edges = []
 		self.ID = ID
