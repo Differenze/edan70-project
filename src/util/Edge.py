@@ -1,6 +1,11 @@
 import regex as re
 import pydot
-# 
+# Node 		tail
+# Node 		head
+# int 		width 		(use set_width to update)
+# str 		tail_pos	where the edge is anchored on the tail side
+# str 		head_pos	where the edge is anchored on the head side
+# dict 		obj_dict 	used to create dot_string representation, needs refactor
 class Edge:
 
 	#  tail->head
@@ -13,9 +18,6 @@ class Edge:
 		self.obj_dict = {}
 		self.obj_dict['attributes'] = {}
 		self.obj_dict['attributes']['label'] = '"<'+str(width)+'>"'
-		# self.pydot_edge = pydot_edge
-		# if not pydot_edge:
-		# 	self.create_pydot()
 		tail.add_succ(self)
 		head.add_pred(self)
 
@@ -38,16 +40,7 @@ class Edge:
 		edge.obj_dict = pydot_edge.obj_dict
 		return edge
 
-
-	# def create_pydot(self):
-	# 	src = self.tail.pydot_node
-	# 	dst = self.head.pydot_node
-	# 	self.pydot_edge = pydot.Edge(src, dst)
-	# 	self.pydot_edge.set_label('"<'+str(self.width)+'>"')
-
-
-	# output as dot format, instead of using pydot
-	# c_2654:out->opeq_2655:right[label="<2>"];
+	# needs refactoring, the obj_dict is legacy
 	def dot_string(self):
 		edge = []
 		edge.append(self.tail.ID)
@@ -76,6 +69,9 @@ class Edge:
 
 		return ''.join(edge) + ';'
 
+	def set_width(self, number):
+		self.width = number
+		self.obj_dict['attributes']['label'] = '"<'+str(number)+'>"'
 
 	def __str__(self):
 		return 'Edge: %(tail)s <%(width)s>-> %(head)s' % ({'tail':self.tail, 'head':self.head, 'width':self.width})

@@ -9,6 +9,7 @@ import opt.insert_shift as insert_shift
 import opt.const_merging as const_merging
 import opt.alg_simp as alg_simp
 import opt.tree_height_reduction as tree_height_reduction
+import opt.bitwidth as bitwidth
 
 
 
@@ -33,6 +34,7 @@ parser.add_argument('--in_shift', action='store_true')
 parser.add_argument('--const_merging', action='store_true')
 parser.add_argument('--alg_simp', action='store_true')
 parser.add_argument('--tree_height_reduction', action='store_true')
+parser.add_argument('--bitwidth', action='store_true')
 
 args=parser.parse_args()
 
@@ -41,6 +43,10 @@ if args.all:
 	
 print('parsing graph')
 graph = Graph(args.infile)
+
+if(args.all or args.bitwidth):
+	print('start bitwidth optimization')
+	bitwidth.run(graph)
 
 if(args.all or args.eq_1):
 	print('start eq_1 optimization')
