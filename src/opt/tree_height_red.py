@@ -17,24 +17,31 @@ def run(graph, opt):
 			for edge in bottom.out_edges:
 				if edge.width > bottom_width:
 					bottom_width = edge.width
-			for work_node in worklist:
+			#print('bottomwidth is '+ str(bottom_width))
+			#print('worklist len is '+ str(len(worklist)))
+			for work_node in list(worklist):
+				#print('processing node, '+work_node.ID+' with width, '+ str(work_node.out_edges[0].width))
 				if work_node != bottom and work_node.out_edges[0].width != bottom_width:
-					#print('removing')
+					#print('removing node '+work_node.ID)
 					worklist.remove(work_node)
 					work_node.visited = False
 			if len(worklist)>2:
+				#print('worklist len is '+ str(len(worklist)))
 				#print('nestled tree found')
 				inputlist = []
 				for work_node in worklist:
+					#print(work_node.ID)
 					for work_input in work_node.in_edges:
 						if work_input.tail not in worklist:
 							inputlist.append((work_input.width, work_input.tail))
-
+							#print('============ adding input '+work_input.tail.ID)
+				#print('inputist len is ' + str(len(inputlist)))
 				for edge in bottom.in_edges:
 					edge.set_width(bottom_width)
 				worklist.remove(bottom)
 				edgelist = []
 				edgelist.extend(bottom.in_edges)
+				#print('bottom is '+ bottom.ID)
 				while(len(worklist)):
 					current_edge = edgelist.pop(0)
 					current_node = worklist.pop(0)
@@ -45,7 +52,9 @@ def run(graph, opt):
 					current_edge.set_width(bottom_width)
 					current_edge.tail = current_node
 					edgelist.extend(current_edge.tail.in_edges)
+				#print('input length is '+str(len(inputlist)))
 				while(len(inputlist)):
+					#print(len(edgelist))
 					current_edge = edgelist.pop(0)
 					current_width, current_input = inputlist.pop(0)
 
@@ -65,7 +74,7 @@ def run(graph, opt):
 def visit(node, worklist, bottom, opts):
 
 	if not node.visited:
-		#print('adding node ' + node.ID)
+		##print('adding node ' + node.ID)
 		node.visited = True
 		worklist.append(node)
 		to_visit = None
@@ -73,7 +82,7 @@ def visit(node, worklist, bottom, opts):
 		for pred in node.in_edges:
 			node2 = pred.tail
 			if node2.type_string in opts:
-				#print(node.ID +' calling visit to input edge')
+				##print(node.ID +' calling visit to input edge')
 				bottom = visit(node2, worklist, bottom, opts)
 
 
@@ -81,25 +90,25 @@ def visit(node, worklist, bottom, opts):
 			node2 = succ.head
 			if node2.type_string in opts:
 				if to_visit == None:
-					#print('found one to visit')
+					##print('found one to visit')
 					to_visit = node2
 				else:
-					#print('found multiple adds')
+					##print('found multiple adds')
 					to_visit = None
 					break
 			else:
-				#print('found other outputs')
+				##print('found other outputs')
 				other_outputs = True
 
 		if to_visit != None and not other_outputs:
-			#print(node.ID +' visiting new out vertex')
+			##print(node.ID +' visiting new out vertex')
 			bottom = to_visit
 			bottom = visit(bottom, worklist, bottom, opts)
 		elif (node != bottom):
 			worklist.remove(node)
 	
 	#else:
-		#print(node.ID +'already visited')
+		##print(node.ID +'already visited')
 	return bottom
 
 
