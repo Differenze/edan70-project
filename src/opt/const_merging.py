@@ -8,7 +8,9 @@ CONST = 'c'
 def run(graph):
 	# create copy of nodes because we are going to add/remove nodes
 	node_dict = dict(graph.nodes)
-	for ID,node in node_dict.items():
+	worklist = graph.nodes.values()
+	while worklist:
+		node = worklist.pop()
 		if not node:
 			continue;
 		if is_const_arithm(node):
@@ -19,7 +21,8 @@ def run(graph):
 					summ = 0
 					summ += aritmvalue(node)
 					summ += aritmvalue(successor)
-					replace_nodes(node, successor, summ, graph)
+					replace_nodes(node, successor, summ, graph, worklist)
+					changed = True
 
 	# remove unused constants
 	for ID,node in graph.nodes.items():
@@ -35,7 +38,7 @@ def bitwidth(number):
 	return int(math.floor(math.log(number, 2))+1)
 
 
-def replace_nodes(node, succ, summ, graph):
+def replace_nodes(node, succ, summ, graph, worklist):
 	# print('MERGING', str(node), str(succ))
 	pred_edge = node.left_edge()
 	if node.left_edge().tail.is_constant():
@@ -71,6 +74,7 @@ def replace_nodes(node, succ, summ, graph):
 		graph.remove_node(succ)
 	if len(node.output_edges()) == 0:
 		graph.remove_node(node)
+	worklist.append(repl_node)
 
 
 # node = this node
