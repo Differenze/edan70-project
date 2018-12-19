@@ -21,26 +21,31 @@ parser.add_argument('infile',
 	metavar='input.dot', 
 	type=argparse.FileType('r'), 
 	help='input file to be optimized')
-parser.add_argument('outfile', 
+parser.add_argument(
+	'-o',
+	'--outfile', 
 	metavar='output.dot', 
 	type=argparse.FileType('w'),
 	default=open('output.dot','w'), 
 	help='output file, output.dot by default', 
-	nargs='?')
+	nargs=1)
 
 #parser.add_argument('--opts', help='test', type=str, choices=possible_opts, nargs='+')
-parser.add_argument('--all', action='store_true')
-parser.add_argument('--eq_1', action='store_true')
-parser.add_argument('--remove_duplicates', action='store_true')
-parser.add_argument('--in_shift', action='store_true')
-parser.add_argument('--const_merging', action='store_true')
-parser.add_argument('--alg_simp', action='store_true')
+
+parser.add_argument('--all', action='store_true', help='apply all optimizations')
+parser.add_argument('--eq_1', action='store_true', help='removes 1 bit nodes where output is equal to input')
+parser.add_argument('--remove_duplicates', action='store_true', help='removes nodes which perform the same operation with different input')
+parser.add_argument('--in_shift', action='store_true', help='[not implemented] replaces multiplications with shift operations')
+parser.add_argument('--const_merging', action='store_true', help='merges additions/subtractions with constants')
+parser.add_argument('--alg_simp', action='store_true', help='[??]simplifies algebraic expression')
+parser.add_argument('--bitwidth', action='store_true', help='removes insignificant bits')
+#parser.add_argument('--tree_height_reduction', action='store_true', help='balances subtrees of similar operations')
 parser.add_argument('--tree_height_red_add', action='store_true')
 parser.add_argument('--tree_height_red_and', action='store_true')
 parser.add_argument('--tree_height_red_or', action='store_true')
-parser.add_argument('--bitwidth', action='store_true')
 
 args=parser.parse_args()
+#print(args)
 
 if args.all:
 	print('ALL')
@@ -69,7 +74,7 @@ if(args.all or args.const_merging):
 	const_merging.run(graph)
 
 if(args.all or args.alg_simp):
-	print('starting alebraic simplification optimization')
+	print('starting algebraic simplification optimization')
 	alg_simp.run(graph)
 
 if(args.all or args.tree_height_red_add):

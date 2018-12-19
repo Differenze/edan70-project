@@ -23,6 +23,7 @@ class Graph:
 
 	def read_from_file(self, file):
 		file.close()
+		print(file.name)
 		self.pydot_graph = pydot.graph_from_dot_file(file.name)[0]
 		for node in self.pydot_graph.get_node_list():
 			self.node(node)
