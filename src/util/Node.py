@@ -36,7 +36,7 @@ class Node:
 	@staticmethod
 	def new_node_from_pydot(pydot_node):
 		ID = pydot_node.get_name()
-		type_string = "".join(pydot_node.get_name().split('_')[:-1])
+		type_string = pydot_node.get_name().split('_')[0:1][0]
 		label = pydot_node.get_label()
 		node = Node(type_string, ID, label)
 		node.obj_dict = pydot_node.obj_dict

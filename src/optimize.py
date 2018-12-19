@@ -8,7 +8,9 @@ import opt.remove_duplicates as remove_duplicates
 import opt.insert_shift as insert_shift
 import opt.const_merging as const_merging
 import opt.alg_simp as alg_simp
-import opt.tree_height_reduction as tree_height_reduction
+import opt.tree_height_red as tree_height_red
+
+
 import opt.bitwidth as bitwidth
 
 
@@ -33,7 +35,9 @@ parser.add_argument('--remove_duplicates', action='store_true')
 parser.add_argument('--in_shift', action='store_true')
 parser.add_argument('--const_merging', action='store_true')
 parser.add_argument('--alg_simp', action='store_true')
-parser.add_argument('--tree_height_reduction', action='store_true')
+parser.add_argument('--tree_height_red_add', action='store_true')
+parser.add_argument('--tree_height_red_and', action='store_true')
+parser.add_argument('--tree_height_red_or', action='store_true')
 parser.add_argument('--bitwidth', action='store_true')
 
 args=parser.parse_args()
@@ -68,9 +72,17 @@ if(args.all or args.alg_simp):
 	print('starting alebraic simplification optimization')
 	alg_simp.run(graph)
 
-if(args.all or args.tree_height_reduction):
-	print('starting tree height reduction optimization')
-	tree_height_reduction.run(graph)
+if(args.all or args.tree_height_red_add):
+	print('starting tree height reduction add optimization')
+	tree_height_red.run(graph, 'add')
+
+if(args.all or args.tree_height_red_and):
+	print('starting tree height reduction and optimization')
+	tree_height_red.run(graph, 'and')
+
+if(args.all or args.tree_height_red_or):
+	print('starting tree height reduction or optimization')
+	tree_height_red.run(graph, 'or')
 
 print('writing to file:', args.outfile)
 graph.write_to_file(args.outfile)
