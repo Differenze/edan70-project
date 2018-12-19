@@ -1,7 +1,5 @@
 digraph packetarc {
 node [shape=record];
-c_200 [label="1" shape=plaintext color="red" style="filled"];
-c_201 [label="0" shape=plaintext color="red" style="filled"];
 in_300 [label="input 300"];
 in_301 [label="input 301"];
 

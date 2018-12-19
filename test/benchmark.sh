@@ -2,7 +2,7 @@
 FILE1=output
 FILE2=$1
 
-ARGS="--algo simple-timing --target-delay 80"
+ARGS="--algo simple-timing --target-delay $2"
 
 if [ -z "$FILE2" ]; then
 	echo "usage: ./test/benchmark.sh _filename_"
