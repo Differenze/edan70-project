@@ -27,7 +27,7 @@ def run(graph, opt):
 					work_node.visited = False
 			if len(worklist)>2:
 				#print('worklist len is '+ str(len(worklist)))
-				print('nestled tree found')
+				# print('nestled tree found')
 				inputlist = []
 				for work_node in worklist:
 					#print(work_node.ID)

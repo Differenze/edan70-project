@@ -36,7 +36,7 @@ def bitwidth(number):
 
 
 def replace_nodes(node, succ, summ, graph):
-	print('MERGING', str(node), str(succ))
+	# print('MERGING', str(node), str(succ))
 	pred_edge = node.left_edge()
 	if node.left_edge().tail.is_constant():
 		pred_edge = node.right_edge()

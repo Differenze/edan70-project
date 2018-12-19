@@ -23,7 +23,7 @@ def run(graph):
 					deleted_nodes += 1
 					if len(re.tail.output_edges()):
 						graph.remove_node(re.tail)
-	print('Deleted ', deleted_nodes, ' nodes.')
+	# print('Deleted ', deleted_nodes, ' nodes.')
 	return graph
 
 

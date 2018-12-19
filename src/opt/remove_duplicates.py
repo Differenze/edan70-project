@@ -22,7 +22,7 @@ def remove_duplicate(graph):
 							worklist.append(edge2.head)
 						graph.remove_node(node2)
 
-	print('starting worklist')
+	#print('starting worklist')
 	while worklist:	
 		node = worklist.pop()
 		if (len(node.in_edges)>20 and node.type_string == 'bitconcat'):
