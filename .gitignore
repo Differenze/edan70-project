@@ -5,6 +5,7 @@ python2_virtualenv
 pacopt/*
 *.svg
 *_sorted*
+*~lock*
 
 *.idea/*
 

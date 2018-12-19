@@ -1,0 +1,14 @@
+digraph packetarc {
+node [shape=record];
+in_1 [label="input 300"];
+in_2 [label="input 301"];
+c_3 [label="3" shape=plaintext color="red" style="filled"];
+opadd_4 [label="{{<left> left | <right> right} | <out> add}" debug="25454 1"];
+opadd_5 [label="{{<left> left | <right> right} | <out> add}" debug="25454 1"];
+out_6 [label="output 400"];
+in_1->opadd_4:left[label="<4>"];
+c_3->opadd_4:right[label="<4>"];
+opadd_4:out->opadd_5:left[label="<4>"];
+in_2->opadd_5:right[label="<4>"];
+opadd_5:out->out_6 [label="<4>"];
+}

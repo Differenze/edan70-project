@@ -1,0 +1,28 @@
+digraph {
+node [shape=record];
+in_1[label="input 300"][l=0][d=0][w=4][od=0];
+in_2[label="input 301"][l=0][d=0][w=4][od=0];
+c_3[label="3" shape=plaintext color="red" style="filled"][l=0][d=0][w=4][od=0];
+opadd_4[label="{{<left> left | <right> right} | <out> add}" debug="25454 1"][l=0][d=8][w=4][od=8];
+opadd_5[label="{{<left> left | <right> right} | <out> add}" debug="25454 1"][l=1][d=9][w=4][od=8];
+out_6[label="output 400"][l=1][d=9][w=0][od=0];
+ff_0[l=1][d=1][w=4][od=1];
+ff_1[l=1][d=1][w=4][od=1];
+validin[l=0][d=0][w=1][od=0];
+validff_1[l=1][d=0][w=1][od=1];
+validout[l=0][d=0][w=1][od=0];
+pidin[l=0][d=0][w=1][od=0];
+pidff_1[l=1][d=0][w=1][od=1];
+pidout[l=0][d=0][w=1][od=0];
+in_1->opadd_4:left[label="<4>"];
+c_3->opadd_4:right[label="<4>"];
+opadd_5:out->out_6[label="<4>"];
+opadd_4:out->ff_0[label="<4>"];
+ff_0->opadd_5:left[label="<4>"];
+in_2->ff_1[label="<4>"];
+ff_1->opadd_5:right[label="<4>"];
+validin->validff_1[label="<1>"];
+validff_1->validout[label="<1>"];
+pidin->pidff_1[label="<1>"];
+pidff_1->pidout[label="<1>"];
+}

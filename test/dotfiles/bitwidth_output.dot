@@ -1,0 +1,16 @@
+digraph packetarc {
+node [shape=record];
+in_301 [label="input 301"];
+c_201 [label="0" shape=plaintext color="red" style="filled"];
+c_200 [label="1" shape=plaintext color="red" style="filled"];
+out_402 [label="output 402"];
+out_400 [label="output 400"];
+opor_101 [label="{{<left> left | <right> right} | <out> or}" debug="25454 1"];
+opadd_102 [label="{{<left> left | <right> right} | <out> add}" debug="25454 1"];
+in_301->opor_101:right[label="<6>"];
+c_200->opadd_102:right[label="<1>"];
+opor_101:out->out_402[label="<8>"];
+opadd_102:out->out_400[label="<3>"];
+c_201->opor_101:left[label="<8>"];
+opor_101:out->opadd_102:left[label="<3>"];
+}
