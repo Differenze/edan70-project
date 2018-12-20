@@ -23,20 +23,20 @@ def bench(infile, opts, tdelay):
 	return output.split()[-1]
 
 infiles=[
-'opdelay_add',
-'tag_6x10G',
-'c1mepp',
-#'c1mipp'
+# 'opdelay_add',
+# 'tag_6x10G',
+# 'c1mepp',
+'c1mipp'
 ]
 opts=[
-#'--eq_1',
-#'--bitwidth',
-#'--const_merging',
-#'--remove_duplicates',
-#'--bitwidth --tree_height_red_add --tree_height_red_and --tree_height_red_or',
-# '--all',
-# '--eq_1 --bitwidth --const_merging --tree_height_red_add --tree_height_red_and --tree_height_red_or '
-'--const_merging --eq_1'
+'--eq_1',
+'--bitwidth',
+'--const_merging',
+'--remove_duplicates',
+'--bitwidth --tree_height_red_add --tree_height_red_and --tree_height_red_or',
+'--all',
+'--eq_1 --bitwidth --const_merging --tree_height_red_add --tree_height_red_and --tree_height_red_or'
+#'--const_merging --eq_1'
 ]
 
 sys.stdout.write(',')
