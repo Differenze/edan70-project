@@ -35,6 +35,7 @@ def run(graph, opt):
 			# and then creating a balanced tree with the very same inputs.
 
 			if len(worklist)>2:
+
 				inputlist = []
 				#fills inputlist
 				for work_node in worklist:
