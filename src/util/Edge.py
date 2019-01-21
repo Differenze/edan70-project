@@ -6,21 +6,29 @@ import pydot
 # str 		tail_pos	where the edge is anchored on the tail side
 # str 		head_pos	where the edge is anchored on the head side
 # dict 		obj_dict 	used to create dot_string representation, needs refactor
+
+# An Edge connects tail->head
 class Edge:
 
-	#  tail->head
+	# constructor for an Edge
 	def __init__(self, tail, head, width, tail_pos=None, head_pos=None, pydot_edge=None):
-		self.tail = tail # Node object
-		self.head = head # Node object
-		self.width = width
-		self.tail_pos = tail_pos
-		self.head_pos = head_pos
-		self.obj_dict = {}
-		self.obj_dict['attributes'] = {}
-		self.obj_dict['attributes']['label'] = '"<'+str(width)+'>"'
+		self.tail = tail 					# Node object
+		self.head = head 					# Node object
+		self.width = width 					# how many bits wide the Edge is
+		self.tail_pos = tail_pos 			# where the Edge is anchored 
+											# on the tail side, e.g. "out"
+		self.head_pos = head_pos 			# where the Edge is anchored 
+											# on the head side, e.g. "left"
+		
+		# obj_dict is legacy from using pydot
+		self.obj_dict = {} 					# stores all edge data
+		self.obj_dict['attributes'] = {} 	# stores edge attributes
+		self.obj_dict['attributes']['label'] = '"<'+str(width)+'>"'	
 		tail.add_succ(self)
 		head.add_pred(self)
 
+
+	# creates a new Edge from a pydot.Edge
 	@staticmethod
 	def new_from_pydot(pydot_edge, nodes):
 		tail = pydot_edge.get_source().split(':')
@@ -40,7 +48,8 @@ class Edge:
 		edge.obj_dict = pydot_edge.obj_dict
 		return edge
 
-	# needs refactoring, the obj_dict is legacy
+	# needs refactoring, the obj_dict is legacy from using pydot
+	# returns string representation of this Edge on the dot format
 	def dot_string(self):
 		edge = []
 		edge.append(self.tail.ID)
@@ -51,6 +60,8 @@ class Edge:
 		if(self.head_pos):
 			edge.append(':'+self.head_pos)
 
+		# the order in which attributes are appended is important for pacopt
+		# therefore the pydot library could not be used, excuse the following hacks
 		attr_list = ['label', 'debug']
 		edge_attr = []
 
@@ -69,9 +80,12 @@ class Edge:
 
 		return ''.join(edge) + ';'
 
+	# updates the width of this Edge
 	def set_width(self, number):
 		self.width = number
 		self.obj_dict['attributes']['label'] = '"<'+str(number)+'>"'
 
+
+	# string representation for printouts
 	def __str__(self):
 		return 'Edge: %(tail)s <%(width)s>-> %(head)s' % ({'tail':self.tail, 'head':self.head, 'width':self.width})
