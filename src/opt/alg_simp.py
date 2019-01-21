@@ -1,3 +1,5 @@
+# Simple prints to identify candidates for simplification, Evaluated to not be worth implementing as such cases do not excist.
+
 def run(graph):
 	for ID,node in graph.nodes.items():
 		if node.type_string != 'opadd':

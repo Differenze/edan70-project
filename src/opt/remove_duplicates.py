@@ -1,5 +1,9 @@
 import util.Edge as Edge
 
+# Searches through the graph to find duplicate operations. 
+# Such instances are found by looking to see if the operations have the same input. 
+# This could e expanded upon by evaulatng whether they instead have "equivalent" inputs, i.e some form of constant propagation would be needed.
+
 def run(graph):
 	remove_duplicate(graph)
 	return graph
@@ -8,6 +12,8 @@ def run(graph):
 def remove_duplicate(graph):
 	worklist = []
 	for ID,node1 in graph.nodes.items():
+		# bitconcats have a lot of inputs and therefore take a long time to process, they also have a sze of zero so they are not relevant to this optimization. 
+		# Please note that several bitconcats can however be safely removed, if this proves beneficial for other purposes.
 		if (len(node1.in_edges)>20 and node1.type_string == 'bitconcat'):
 			continue
 		for pred in node1.in_edges:
@@ -22,7 +28,6 @@ def remove_duplicate(graph):
 							worklist.append(edge2.head)
 						graph.remove_node(node2)
 
-	#print('starting worklist')
 	while worklist:	
 		node = worklist.pop()
 		if (len(node.in_edges)>20 and node.type_string == 'bitconcat'):
