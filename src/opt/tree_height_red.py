@@ -1,3 +1,8 @@
+# finds subgraphs of similar operations which are normally commutitive, evaluates their sizes to be equal and then balances the graph. 
+# proved difficult as operations with different sized inputs or outputs are not commutitive due to overflow. 
+# More information about overflow and how the sizes of operations is determined could improve this optimization.
+
+
 def run(graph, opt):
 	opts = None
 	if (opt == 'add'):
@@ -8,40 +13,43 @@ def run(graph, opt):
 		opts = ['opor']
 
 	for ID,node in graph.nodes.items():
+		# A way of limiting what nodes the program will run on. max once per node and only if its relevant to the optimization
 		if not node.visited and node.type_string in opts:
 			worklist = []
+			# bottom is the base of the 'tree'
 			bottom = node
 
 			bottom = visit(node, worklist, bottom, opts)
+			#greatest width of the edges out of the bottom node.
 			bottom_width = 0
 			for edge in bottom.out_edges:
 				if edge.width > bottom_width:
 					bottom_width = edge.width
-			#print('bottomwidth is '+ str(bottom_width))
-			#print('worklist len is '+ str(len(worklist)))
+			#if the width for a node is not the same as the bottom width they are removed from the worklist to prevent faulty outputs due to overflows.
 			for work_node in list(worklist):
-				#print('processing node, '+work_node.ID+' with width, '+ str(work_node.out_edges[0].width))
 				if work_node != bottom and work_node.out_edges[0].width != bottom_width:
-					#print('removing node '+work_node.ID)
 					worklist.remove(work_node)
 					work_node.visited = False
+			# A subgraph has been found and balancing can begin.
+			# implemented by creating a list of all iputs into the subgraph, inputlist
+			# and then creating a balanced tree with the very same inputs.
+
 			if len(worklist)>2:
-				#print('worklist len is '+ str(len(worklist)))
-				print('nestled tree found')
 				inputlist = []
+				#fills inputlist
 				for work_node in worklist:
-					#print(work_node.ID)
 					for work_input in work_node.in_edges:
 						if work_input.tail not in worklist:
 							inputlist.append((work_input.width, work_input.tail))
-							#print('============ adding input '+work_input.tail.ID)
-				#print('inputist len is ' + str(len(inputlist)))
 				for edge in bottom.in_edges:
 					edge.set_width(bottom_width)
 				worklist.remove(bottom)
+				# This edgelist serves multiple purposes. It is the list of all edges currently going into the subgraph as its being built.
+				# It will be appended for each node added to the graph. When there are no more nodes to add it will instead be filled with the inputs.
 				edgelist = []
 				edgelist.extend(bottom.in_edges)
-				#print('bottom is '+ bottom.ID)
+
+				# builds the subtree
 				while(len(worklist)):
 					current_edge = edgelist.pop(0)
 					current_node = worklist.pop(0)
@@ -52,9 +60,8 @@ def run(graph, opt):
 					current_edge.set_width(bottom_width)
 					current_edge.tail = current_node
 					edgelist.extend(current_edge.tail.in_edges)
-				#print('input length is '+str(len(inputlist)))
+				# fills the remaining edges with the saved inputs
 				while(len(inputlist)):
-					#print(len(edgelist))
 					current_edge = edgelist.pop(0)
 					current_width, current_input = inputlist.pop(0)
 
@@ -71,10 +78,10 @@ def run(graph, opt):
 			node.visited = True
 
 
+# Recursively traverses the graph to fill the worklist with nodes of the subgraph as well as finds the bottom node.
 def visit(node, worklist, bottom, opts):
 
 	if not node.visited:
-		##print('adding node ' + node.ID)
 		node.visited = True
 		worklist.append(node)
 		to_visit = None
@@ -82,7 +89,6 @@ def visit(node, worklist, bottom, opts):
 		for pred in node.in_edges:
 			node2 = pred.tail
 			if node2.type_string in opts:
-				##print(node.ID +' calling visit to input edge')
 				bottom = visit(node2, worklist, bottom, opts)
 
 
@@ -90,25 +96,19 @@ def visit(node, worklist, bottom, opts):
 			node2 = succ.head
 			if node2.type_string in opts:
 				if to_visit == None:
-					##print('found one to visit')
 					to_visit = node2
 				else:
-					##print('found multiple adds')
 					to_visit = None
 					break
 			else:
-				##print('found other outputs')
 				other_outputs = True
 
 		if to_visit != None and not other_outputs:
-			##print(node.ID +' visiting new out vertex')
 			bottom = to_visit
 			bottom = visit(bottom, worklist, bottom, opts)
 		elif (node != bottom):
 			worklist.remove(node)
-	
-	#else:
-		##print(node.ID +'already visited')
+
 	return bottom
 
 
