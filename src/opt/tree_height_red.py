@@ -6,7 +6,7 @@
 def run(graph, opt):
 	opts = None
 	if (opt == 'add'):
-		opts = ['opadd', 'opsub']
+		opts = ['opadd']
 	elif (opt == 'and'):
 		opts = ['opand']
 	elif (opt == 'or' ):
