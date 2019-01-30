@@ -6,6 +6,7 @@ pacopt/*
 *.svg
 *_sorted*
 *~lock*
+.vscode/*
 
 *.idea/*
 

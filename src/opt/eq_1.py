@@ -1,9 +1,7 @@
-# eq_0.py
-# Removes comparison nodes where output is allways same as input
-# TODO descision: Maybe we should implement full scale constant propagation
-# Examples:
-# out = x<1> == 1<1>
-# out = x<1> != 0<1>
+# --eq_1
+# Removes comparison nodes where a single 
+# bit is compared to 0 or 1 when possible.
+
 
 def run(graph):
 	deleted_nodes = 0
