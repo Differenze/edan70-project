@@ -10,6 +10,7 @@ import opt.const_merging as const_merging
 import opt.alg_simp as alg_simp
 import opt.tree_height_red as tree_height_red
 import opt.bitwidth as bitwidth
+import opt.greedy as greedy
 
 # use:
 # python src/optimize.py -h
@@ -43,6 +44,7 @@ parser.add_argument('--bitwidth', action='store_true', help='removes insignifica
 parser.add_argument('--tree_height_red_add', action='store_true', help='balances trees of add/sub operations')
 parser.add_argument('--tree_height_red_and', action='store_true', help='balances trees of and operations')
 parser.add_argument('--tree_height_red_or', action='store_true', help='balances trees of or operations')
+parser.add_argument('--greedy', action='store_true', help='greedy insertion of flip flops')
 
 args=parser.parse_args()
 	
@@ -88,6 +90,10 @@ if(args.all or args.tree_height_red_and):
 if(args.all or args.tree_height_red_or):
 	print('start tree height reduction or optimization')
 	tree_height_red.run(graph, 'or')
+
+if(args.greedy):
+	print('start greedy flip flop insertion')
+	greedy.run(graph)
 
 # write output graph to file
 print('writing to file:', args.outfile)

@@ -8,7 +8,8 @@ import pydot
 DEFAULT_LABELS = {
 	'opadd' : '{{<left> left | <right> right} | <out> add}',
 	'opsub' : '{{<left> left | <right> right} | <out> sub}',
-	'c'		: 'USE Graph.create_constant for sane defaults'
+	'c'		: 'USE Graph.create_constant for sane defaults',
+	'ff'	: 'ff'
 }
 
 class Node:
@@ -52,6 +53,14 @@ class Node:
 		if idnum > Node.MAX_ID:
 			Node.MAX_ID = idnum
 		return node
+
+	def insertFF(self, graph):
+		for index, edge in enumerate(self.out_edges):
+			FF = graph.create_node("ff")
+			old_head = edge.head
+			edge.head = FF
+			new_edge = graph.create_edge(FF,old_head,edge.width, None, edge.head_pos, None)	
+			edge.head_pos = None		
 
 
 	# add edge as an output edge from this node
