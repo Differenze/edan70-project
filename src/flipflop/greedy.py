@@ -1,5 +1,7 @@
 def run(graph):
 	worklist = graph.nodes.values()
-	while worklist:
-		node = worklist.pop()
-		print(node.label)
+	node = worklist.pop()
+	node = worklist.pop()
+	node = worklist.pop()
+	print(node.label)	
+	node.insertFF(graph)

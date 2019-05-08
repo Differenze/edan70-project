@@ -10,7 +10,7 @@ import opt.const_merging as const_merging
 import opt.alg_simp as alg_simp
 import opt.tree_height_red as tree_height_red
 import opt.bitwidth as bitwidth
-import opt.greedy as greedy
+import flipflop.greedy as greedy
 
 # use:
 # python src/optimize.py -h
