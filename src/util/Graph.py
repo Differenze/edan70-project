@@ -14,6 +14,7 @@ class Graph:
 	edges = [] # all edges in the graph
 	pydot_graph = None
 
+	lead_str = '' #digraph..
 
 	# constructs a graph
 	def __init__(self, file=None):
@@ -26,6 +27,38 @@ class Graph:
 
 	# reads a graph from a file using the pydot library
 	def read_from_file(self, file):
+		# lead_str = file[1]
+		# parse manually:
+		ignored = [
+			'\n',
+			'node [shape=record];\n',
+			'}\n',
+		]
+
+		edgestrings = []
+		for line in file:
+			if self.lead_str is '':
+				self.lead_str = line
+				continue
+			if line in ignored:
+				continue
+			if '->' in line:
+				edgestrings.append(line)
+			else:
+				node = Node.new_from_string(line)
+				if node.ID in self.nodes:
+					print(node.ID)
+					print(self.nodes[node.ID].ID)
+					print('ERROR: Node ID\'s are not unique!:', str(node), str(self.nodes[node.ID]))
+					exit(-1)
+				self.nodes[node.ID] = node
+		
+		for string in edgestrings:
+			edge = Edge.new_from_string(string, self.nodes)
+			self.edges.append(edge)
+
+		return
+		# parse using pydot (TODO remove)
 		file.close()
 		print(file.name)
 		self.pydot_graph = pydot.graph_from_dot_file(file.name)[0]
@@ -74,7 +107,7 @@ class Graph:
 
 	# writes the graph into a file using the dot format
 	def write_to_file(self, file):
-		file.write('digraph packetarc {\n')
+		file.write(self.lead_str)
 		file.write('node [shape=record];\n')
 		for node in self.nodes.values():
 			file.write(node.dot_string() + '\n')

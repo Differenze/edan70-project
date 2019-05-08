@@ -48,6 +48,31 @@ class Edge:
 		edge.obj_dict = pydot_edge.obj_dict
 		return edge
 
+
+	# c_10->opadd_11:right[label="<4>"];
+	@staticmethod
+	def new_from_string(dot_string, nodes):
+		edge, attrib = dot_string.split('[')
+		attrib.rstrip('];\n')
+		match=re.search('label="(.*?)"', attrib)
+		label=match.group(1)
+		width=int(label[1:-1])
+
+		tail, head = edge.split('->')
+		tail_pos = None 
+		head_pos = None
+		if ':' in tail:
+			tail, tail_pos = tail.split(':')
+		if ':' in head:
+			head, head_pos = head.split(':')
+
+		tail = nodes[tail]
+		head = nodes[head]
+
+		edge = Edge(tail, head, width, tail_pos, head_pos, None)
+		return edge
+
+
 	# needs refactoring, the obj_dict is legacy from using pydot
 	# returns string representation of this Edge on the dot format
 	def dot_string(self):

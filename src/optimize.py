@@ -11,6 +11,7 @@ import opt.alg_simp as alg_simp
 import opt.tree_height_red as tree_height_red
 import opt.bitwidth as bitwidth
 import flipflop.greedy as greedy
+import flipflop.printout as printout
 
 # use:
 # python src/optimize.py -h
@@ -45,6 +46,7 @@ parser.add_argument('--tree_height_red_add', action='store_true', help='balances
 parser.add_argument('--tree_height_red_and', action='store_true', help='balances trees of and operations')
 parser.add_argument('--tree_height_red_or', action='store_true', help='balances trees of or operations')
 parser.add_argument('--greedy', action='store_true', help='greedy insertion of flip flops')
+parser.add_argument('--printout', action='store_true', help='print debug info')
 
 args=parser.parse_args()
 	
@@ -94,6 +96,10 @@ if(args.all or args.tree_height_red_or):
 if(args.greedy):
 	print('start greedy flip flop insertion')
 	greedy.run(graph)
+
+if(args.printout):
+	print('start debug print')
+	printout.run(graph)
 
 # write output graph to file
 print('writing to file:', args.outfile)
