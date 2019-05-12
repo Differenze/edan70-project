@@ -78,7 +78,7 @@ class Node:
 	@staticmethod
 	def new_from_string(dot_string):
 		dot_string = dot_string.rstrip('\n;')
-		print(dot_string)
+		# print(dot_string)
 
 		parse = {
 			'label'			: 'label="([^\]"]*)"',
@@ -101,7 +101,7 @@ class Node:
 			if(match):
 				info[tag] = match.group(1)
 				# print(tag+': '+info[tag])
-		print(info)
+		# print(info)
 		# node = Node(info['type_str'], info['ID'], info['label'], info)
 		node = Node(**info)
 		return node
