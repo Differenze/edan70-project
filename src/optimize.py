@@ -119,6 +119,9 @@ if(args.printout):
 if(args.calcFF):
 	print('start calcFF')
 	calcFF.run(graph)
+if(args.findLongestNaive):
+	print('start find longest naive')
+	findLongestNaive.run(graph)
 
 # write output graph to file
 print('writing to file:', args.outfile)
