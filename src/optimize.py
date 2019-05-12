@@ -10,9 +10,11 @@ import opt.const_merging as const_merging
 import opt.alg_simp as alg_simp
 import opt.tree_height_red as tree_height_red
 import opt.bitwidth as bitwidth
+
 import flipflop.greedy as greedy
 import flipflop.printout as printout
 import flipflop.calcFF as calcFF
+import flipflop.findLongestNaive as findLongestNaive
 
 # use:
 # python src/optimize.py -h
@@ -49,7 +51,7 @@ parser.add_argument('--tree_height_red_or', action='store_true', help='balances 
 parser.add_argument('--greedy', action='store_true', help='greedy insertion of flip flops')
 parser.add_argument('--printout', action='store_true', help='print debug info')
 parser.add_argument('--calcFF', action='store_true', help='calculates total width of the flipflops')
-
+parser.add_argument('--findLongestNaive', action='store_true', help='finds the longest path')
 
 args=parser.parse_args()
 	
