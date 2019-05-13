@@ -11,11 +11,13 @@ import opt.const_merging as const_merging
 import opt.alg_simp as alg_simp
 import opt.tree_height_red as tree_height_red
 import opt.bitwidth as bitwidth
+
 import flipflop.greedy as greedy
 import flipflop.printout as printout
 import flipflop.remff as remff
 import flipflop.calcFF as calcFF
 import flipflop.findpaths as findpaths
+import flipflop.findLongestNaive as findLongestNaive
 
 # use:
 # python src/optimize.py -h
@@ -54,6 +56,7 @@ parser.add_argument('--printout', action='store_true', help='print debug info')
 parser.add_argument('--remff', action='store_true', help='creates a second graph with flip flops removed (reset the result from pacopt)')
 parser.add_argument('--calcFF', action='store_true', help='calculates total width of the flipflops')
 parser.add_argument('--findpaths', action='store_true', help='finds all possible paths from any input to any output in the graph')
+parser.add_argument('--findLongestNaive', action='store_true', help='finds the longest path')
 
 args=parser.parse_args()
 	
@@ -122,6 +125,9 @@ if(args.printout):
 if(args.calcFF):
 	print('start calcFF')
 	calcFF.run(graph)
+if(args.findLongestNaive):
+	print('start find longest naive')
+	findLongestNaive.run(graph)
 
 # write output graph to file
 print('writing to file:', args.outfile)
