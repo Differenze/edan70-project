@@ -15,6 +15,7 @@ import flipflop.greedy as greedy
 import flipflop.printout as printout
 import flipflop.remff as remff
 import flipflop.calcFF as calcFF
+import flipflop.findpaths as findpaths
 
 # use:
 # python src/optimize.py -h
@@ -52,7 +53,7 @@ parser.add_argument('--greedy', action='store_true', help='greedy insertion of f
 parser.add_argument('--printout', action='store_true', help='print debug info')
 parser.add_argument('--remff', action='store_true', help='creates a second graph with flip flops removed (reset the result from pacopt)')
 parser.add_argument('--calcFF', action='store_true', help='calculates total width of the flipflops')
-
+parser.add_argument('--findpaths', action='store_true', help='finds all possible paths from any input to any output in the graph')
 
 args=parser.parse_args()
 	
@@ -106,6 +107,10 @@ if(args.all or args.tree_height_red_or):
 if(args.remff):
 	print('removing flip flops from graph')
 	remff.run(graph)
+
+if(args.findpaths):
+	print('start finding paths')
+	findpaths.run(graph)
 
 if(args.greedy):
 	print('start greedy flip flop insertion')
