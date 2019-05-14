@@ -42,6 +42,10 @@ class Node:
 		if not ID:
 			Node.MAX_ID += 1
 			self.ID = type_string+'_'+str(Node.MAX_ID)
+		if '_' in self.ID:
+			idnum = int(self.ID.split('_')[1])
+			if idnum > Node.MAX_ID:
+				Node.MAX_ID = idnum
 		self.type_string = type_string
 		self.label = info.get('label', None)
 		# if not self.label:
@@ -186,20 +190,12 @@ class Node:
 		node = self.ID
 		# attributes follow this order:
 		attr_list = ['label', 'shape', 'color', 'style', 'debug']
+		self.info['label']=self.ID # TODO remove this, used for debugging only!
 		node_attr = []
 
 		for attr in attr_list:
 			if attr in self.info:
 				node_attr.append('{}="{}"'.format(attr, self.info[attr]))
-
-		# for attr in attr_list:
-		# 	if attr in self.obj_dict['attributes']:
-		# 		value = self.obj_dict['attributes'][attr]
-		# 		if value == '':
-		# 			value = '""'
-		# 		if value is not None:
-		# 			node_attr.append('%s=%s' % (attr, pydot.quote_if_necessary(value)))
-
 
 		node_attr = ' '.join(node_attr)
 		if node_attr:
