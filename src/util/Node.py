@@ -106,13 +106,18 @@ class Node:
 		node = Node(**info)
 		return node
 
-	def insertFF(self, graph):
-		for index, edge in enumerate(self.out_edges):
-			FF = graph.create_node("ff")
-			old_head = edge.head
-			edge.head = FF
-			new_edge = graph.create_edge(FF,old_head,edge.width, None, edge.head_pos, None)	
-			edge.head_pos = None		
+	# def insertFF(self, graph):
+	# 	for index, edge in enumerate(self.out_edges):
+	# 		info = {
+	# 			"type_string":"ff",
+	# 			"width":edge.width,
+	# 			"ID":None,
+	# 			}
+	# 		FF = Node(**info)
+	# 		old_head = edge.head
+	# 		edge.head = FF
+	# 		new_edge = graph.create_edge(FF,old_head,edge.width, None, edge.head_pos, None)	
+	# 		edge.head_pos = None		
 
 
 	# add edge as an output edge from this node

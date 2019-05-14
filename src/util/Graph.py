@@ -59,13 +59,13 @@ class Graph:
 
 		return
 		# parse using pydot (TODO remove)
-		file.close()
-		print(file.name)
-		self.pydot_graph = pydot.graph_from_dot_file(file.name)[0]
-		for node in self.pydot_graph.get_node_list():
-			self.node(node)
-		for edge in self.pydot_graph.get_edge_list():
-			self.edge(edge)
+		# file.close()
+		# print(file.name)
+		# self.pydot_graph = pydot.graph_from_dot_file(file.name)[0]
+		# for node in self.pydot_graph.get_node_list():
+		# 	self.node(node)
+		# for edge in self.pydot_graph.get_edge_list():
+		# 	self.edge(edge)
 
 
 	# creates an Edge object from a pydot.Edge
@@ -93,6 +93,18 @@ class Graph:
 			self.remove_edge(edge)
 		self.nodes.pop(node.ID)
 
+	# inserts a ff node on the given edge
+	def insert_FF(self, edge):
+		info = {
+				"type_string":"ff",
+				"width":edge.width,
+				"ID":None,
+				}
+		FF = Node(**info)
+		self.nodes[FF.ID] = FF
+		self.create_edge(edge.tail, FF, edge.width, edge.tail_pos, 	None, 			None)
+		self.create_edge(FF, edge.head, edge.width, None,			edge.head_pos, 	None)
+		self.remove_edge(edge)
 
 	def remove_edge(self, edge):
 		if edge in self.edges:
@@ -102,7 +114,7 @@ class Graph:
 			self.edges.remove(edge)
 			return
 		else:
-			print('edge not in graph_edges', edge.pydot_edge.get_source(), edge.pydot_edge.get_destination())
+			print('edge not in graph_edges', str(edge))
 
 
 	# writes the graph into a file using the dot format
@@ -120,6 +132,7 @@ class Graph:
 	def create_edge(self, tail, head, width, tail_pos=None, head_pos=None, pydot_edge=None):
 		edge = Edge(tail, head, width, tail_pos, head_pos)
 		self.edges.append(edge)
+		return edge
 
 
 	# create a new node in this graph
