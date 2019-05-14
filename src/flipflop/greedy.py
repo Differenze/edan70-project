@@ -1,3 +1,4 @@
+
 def run(graph):
 	worklist = graph.nodes.values()
 	node = worklist.pop()

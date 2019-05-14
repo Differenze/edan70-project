@@ -17,7 +17,7 @@ import flipflop.printout as printout
 import flipflop.remff as remff
 import flipflop.calcFF as calcFF
 import flipflop.findpaths as findpaths
-import flipflop.findLongestNaive as findLongestNaive
+import flipflop.insertFF as insertFF
 
 # use:
 # python src/optimize.py -h
@@ -56,7 +56,7 @@ parser.add_argument('--printout', action='store_true', help='print debug info')
 parser.add_argument('--remff', action='store_true', help='creates a second graph with flip flops removed (reset the result from pacopt)')
 parser.add_argument('--calcFF', action='store_true', help='calculates total width of the flipflops')
 parser.add_argument('--findpaths', action='store_true', help='finds all possible paths from any input to any output in the graph')
-parser.add_argument('--findLongestNaive', action='store_true', help='finds the longest path')
+parser.add_argument('--insertFF', action='store_true', help='inserts FF into the graph, needs an opt graph')
 
 args=parser.parse_args()
 	
@@ -125,9 +125,11 @@ if(args.printout):
 if(args.calcFF):
 	print('start calcFF')
 	calcFF.run(graph)
-if(args.findLongestNaive):
-	print('start find longest naive')
-	findLongestNaive.run(graph)
+if(args.insertFF):
+	print('removing flip flops from graph')
+	remff.run(graph)
+	print('start insert FF')
+	insertFF.run(graph)
 
 # write output graph to file
 print('writing to file:', args.outfile)
