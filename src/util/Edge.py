@@ -110,6 +110,9 @@ class Edge:
 		self.width = number
 		self.obj_dict['attributes']['label'] = '"<'+str(number)+'>"'
 
+	# used by flipflop.nodemerging
+	def __lt__(self, other):
+		return self.width<other.width
 
 	# string representation for printouts
 	def __str__(self):

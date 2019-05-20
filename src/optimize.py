@@ -18,6 +18,8 @@ import flipflop.remff as remff
 import flipflop.calcFF as calcFF
 import flipflop.findpaths as findpaths
 import flipflop.insertFF as insertFF
+import flipflop.remconcat as remconcat
+import flipflop.nodemerging as nodemerging
 
 # use:
 # python src/optimize.py -h
@@ -53,16 +55,21 @@ parser.add_argument('--tree_height_red_and', action='store_true', help='balances
 parser.add_argument('--tree_height_red_or', action='store_true', help='balances trees of or operations')
 parser.add_argument('--greedy', action='store_true', help='greedy insertion of flip flops')
 parser.add_argument('--printout', action='store_true', help='print debug info')
-parser.add_argument('--remff', action='store_true', help='creates a second graph with flip flops removed (reset the result from pacopt)')
+parser.add_argument('--remff', action='store_true', help='TODO')
+parser.add_argument('--remconcat', action='store_true', help='TODO')
 parser.add_argument('--calcFF', action='store_true', help='calculates total width of the flipflops')
 parser.add_argument('--findpaths', action='store_true', help='finds all possible paths from any input to any output in the graph')
 parser.add_argument('--insertFF', action='store_true', help='inserts FF into the graph, needs an opt graph')
+parser.add_argument('--nodemerging', action='store_true', help='merges nodes')
+
+
 
 args=parser.parse_args()
 	
 print('parsing graph')
 graph = Graph(args.infile)
-original_graph = copy.deepcopy(graph)
+# original_graph = copy.deepcopy(graph)
+original_graph = graph.create_copy()
 # run the selected optimizations (order matters):
 
 if(args.all or args.bitwidth):
@@ -106,10 +113,21 @@ if(args.all or args.tree_height_red_or):
 
 ## Project 2 graph splitting optimization starts here
 
+# TODO get this from the terminal
+target_delay = 10
+
 # TODO make sure this is run for the ones who require it to be done
 if(args.remff):
 	print('removing flip flops from graph')
 	remff.run(graph)
+
+if(args.remconcat):
+	print('removing concats')
+	remconcat.run(graph)
+
+if(args.nodemerging):
+	print('starting to merge nodes')
+	nodemerging.run(graph, target_delay)
 
 if(args.findpaths):
 	print('start finding paths')
@@ -134,4 +152,5 @@ if(args.insertFF):
 # write output graph to file
 print('writing to file:', args.outfile)
 graph.write_to_file(args.outfile)
-# original_graph.write_to_file(args.outfile+"unchanged")
+print('writing unchanged graph to file', 'unchanged.dot')
+original_graph.write_to_file(open('unchanged.dot', 'w'))

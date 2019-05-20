@@ -62,21 +62,21 @@ class Node:
 
 
 	# creates a node from a pydot.Node object
-	@staticmethod
-	def new_node_from_pydot(pydot_node):
-		ID = pydot_node.get_name()
-		type_string = pydot_node.get_name().split('_')[0:1][0]
-		label = pydot_node.get_label()
-		node = Node(type_string, ID, label)
-		node.obj_dict = pydot_node.obj_dict
-		print(node.obj_dict)
-		if ID in ['validout', 'validin', 'pidout', 'pidin']:
-			idnum = -1
-		else:
-			idnum = int(ID.split('_')[1:][0])
-		if idnum > Node.MAX_ID:
-			Node.MAX_ID = idnum
-		return node
+	# @staticmethod
+	# def new_node_from_pydot(pydot_node):
+	# 	ID = pydot_node.get_name()
+	# 	type_string = pydot_node.get_name().split('_')[0:1][0]
+	# 	label = pydot_node.get_label()
+	# 	node = Node(type_string, ID, label)
+	# 	node.obj_dict = pydot_node.obj_dict
+	# 	print(node.obj_dict)
+	# 	if ID in ['validout', 'validin', 'pidout', 'pidin']:
+	# 		idnum = -1
+	# 	else:
+	# 		idnum = int(ID.split('_')[1:][0])
+	# 	if idnum > Node.MAX_ID:
+	# 		Node.MAX_ID = idnum
+	# 	return node
 
 	# creates a new node from the string given in a dot file
 	@staticmethod
@@ -190,7 +190,7 @@ class Node:
 		node = self.ID
 		# attributes follow this order:
 		attr_list = ['label', 'shape', 'color', 'style', 'debug']
-		self.info['label']=self.ID # TODO remove this, used for debugging only!
+		# self.info['label']=self.ID # TODO remove this, used for debugging only!
 		node_attr = []
 
 		for attr in attr_list:
@@ -216,10 +216,10 @@ class Node:
 
 
 	# update label
-	def set_label(self, value):
-		self.label=value
-		self.set_attrib('label', value)
+	# def set_label(self, value):
+	# 	self.label=value
+	# 	self.set_attrib('label', value)
 
 	# update any attribute
-	def set_attrib(self, attrib, value):
-		self.obj_dict['attributes'][attrib] = value
+	# def set_attrib(self, attrib, value):
+	# 	self.obj_dict['attributes'][attrib] = value

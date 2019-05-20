@@ -10,19 +10,16 @@ import pydot
 # 
 
 class Graph:
-	nodes = {} # all nodes in the graph, ordered by ID
-	edges = [] # all edges in the graph
 	pydot_graph = None
 
 	lead_str = '' #digraph..
 
 	# constructs a graph
 	def __init__(self, file=None):
+		self.nodes = {}
+		self.edges = []
 		if file != None:
 			self.read_from_file(file)
-		else:
-			# TODO if necessary
-			print("TODO allow creating empty graph")
 
 
 	# reads a graph from a file using the pydot library
@@ -154,3 +151,23 @@ class Graph:
 		node.set_attrib('color', 'red')
 		node.set_attrib('style', 'filled')
 		return node
+
+	def create_copy(self):
+		graph = Graph()
+		for ID, node in self.nodes.items():
+			info = node.info
+			# create a new node with same information
+			graph.nodes[ID] = Node(node.type_string, ID, **info)
+
+		# print(self.nodes, graph.nodes, self.nodes is graph.nodes)
+		# return
+		for edge in self.edges:
+			tail = graph.nodes[edge.tail.ID]
+			head = graph.nodes[edge.head.ID]
+			new_edge = Edge(tail, head, edge.width, edge.tail_pos, edge.head_pos)
+			graph.edges.append(new_edge)
+			print(len(graph.edges), len(self.edges))
+
+		graph.lead_str = self.lead_str
+
+		return graph
