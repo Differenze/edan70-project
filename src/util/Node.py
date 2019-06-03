@@ -82,20 +82,19 @@ class Node:
 	@staticmethod
 	def new_from_string(dot_string):
 		dot_string = dot_string.rstrip('\n;')
-		# print(dot_string)
 
 		parse = {
-			'label'			: 'label="([^\]"]*)"',
-			'debug'			: 'debug="([^\]"]*)"',
-			'shape'			: 'shape=([^\s]*)\s',
-			'style'			: 'style="([^\]"]*)"',
-			'color'			: 'color="([^\]"]*)"',
-			'length'		: '\[l=([^\]]*)\]',
-			'delay'			: '\[d=([^\]]*)\]',
-			'width'			: '\[w=([^\]]*)\]',
-			'operator_delay': '\[od=([^\]]*)\]',
-			'type_string'	: '^(.*?)[_|\[]',
-			'ID'			: '^(.*?_?\d*)[\[|\s]',
+			'label'			: r'label="([^\]"]*)"',
+			'debug'			: r'debug="([^\]"]*)"',
+			'shape'			: r'shape=([^\s]*)\s',
+			'style'			: r'style="([^\]"]*)"',
+			'color'			: r'color="([^\]"]*)"',
+			'length'		: r'\[l=([^\]]*)\]',
+			'delay'			: r'\[d=([^\]]*)\]',
+			'width'			: r'\[w=([^\]]*)\]',
+			'operator_delay': r'\[od=([^\]]*)\]',
+			'type_string'	: r'^(.*?)[_|\[]',
+			'ID'			: r'^(.*?_?\d*)[\[|\s]',
 		}
 		info = {}
 
@@ -107,6 +106,7 @@ class Node:
 				# print(tag+': '+info[tag])
 		# print(info)
 		# node = Node(info['type_str'], info['ID'], info['label'], info)
+		# print(dot_string, info)
 		node = Node(**info)
 		return node
 
@@ -138,7 +138,7 @@ class Node:
 
 	# string format for printouts
 	def __str__(self):
-		return 'Node: %(ID)s %(type_s)s %(label)s' % ({'ID':self.ID, 'type_s':self.type_string, 'label':self.label})
+		return 'Node: %(ID)s %(type_s)s' % ({'ID':self.ID, 'type_s':self.type_string, 'label':self.label})
 
 
 	def input_edges(self):
@@ -190,9 +190,10 @@ class Node:
 		node = self.ID
 		# attributes follow this order:
 		attr_list = ['label', 'shape', 'color', 'style', 'debug']
-		# self.info['label']=self.ID # TODO remove this, used for debugging only!
-		node_attr = []
+		# if self.type_string not in ['mergednode', 'ff']:
+		# 	self.info['label']=self.ID+" od: "+self.info['operator_delay'] # TODO remove this, used for debugging only!
 
+		node_attr = []
 		for attr in attr_list:
 			if attr in self.info:
 				node_attr.append('{}="{}"'.format(attr, self.info[attr]))
@@ -216,10 +217,10 @@ class Node:
 
 
 	# update label
-	# def set_label(self, value):
-	# 	self.label=value
-	# 	self.set_attrib('label', value)
+	def set_label(self, value):
+		self.label=value
+		self.set_attrib('label', value)
 
 	# update any attribute
-	# def set_attrib(self, attrib, value):
-	# 	self.obj_dict['attributes'][attrib] = value
+	def set_attrib(self, attrib, value):
+		self.info[attrib] = value

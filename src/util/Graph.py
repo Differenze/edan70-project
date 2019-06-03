@@ -72,23 +72,27 @@ class Graph:
 
 
 	# creates a Node object from a pydot.Node
-	def node(self, pydot_node):
-		# catches the first line which defines node shape/color
-		if pydot_node.get_name() == 'node':
-			return
-		node = Node.new_node_from_pydot(pydot_node)
-		if node.ID in self.nodes:
-			print(node.ID)
-			print(self.nodes[node.ID].ID)
-			print('ERROR: Node ID\'s are not unique!:', str(node), str(self.nodes[node.ID]))
-			exit(-1)
-		self.nodes[node.ID] = node
+	# def node(self, pydot_node):
+	# 	# catches the first line which defines node shape/color
+	# 	if pydot_node.get_name() == 'node':
+	# 		return
+	# 	node = Node.new_node_from_pydot(pydot_node)
+	# 	if node.ID in self.nodes:
+	# 		print(node.ID)
+	# 		print(self.nodes[node.ID].ID)
+	# 		print('ERROR: Node ID\'s are not unique!:', str(node), str(self.nodes[node.ID]))
+	# 		exit(-1)
+	# 	self.nodes[node.ID] = node
 
 
 	def remove_node(self, node):
-		for edge in node.out_edges+node.in_edges:
-			self.remove_edge(edge)
-		self.nodes.pop(node.ID)
+		try:
+			for edge in node.out_edges+node.in_edges:
+				self.remove_edge(edge)
+			self.nodes.pop(node.ID)
+		except:
+			return
+			print('could not delete' + str(node))
 
 	# inserts a ff node on the given edge
 	def insert_FF(self, edge):
@@ -102,6 +106,7 @@ class Graph:
 		self.create_edge(edge.tail, FF, edge.width, edge.tail_pos, 	None, 			None)
 		self.create_edge(FF, edge.head, edge.width, None,			edge.head_pos, 	None)
 		self.remove_edge(edge)
+		return FF
 
 	def remove_edge(self, edge):
 		if edge in self.edges:
@@ -118,6 +123,7 @@ class Graph:
 	def write_to_file(self, file):
 		file.write(self.lead_str)
 		file.write('node [shape=record];\n')
+		# print(self.nodes)
 		for node in self.nodes.values():
 			file.write(node.dot_string() + '\n')
 		for edge in self.edges:
@@ -134,7 +140,7 @@ class Graph:
 
 	# create a new node in this graph
 	def create_node(self, type_string):
-		node = Node(type_string)
+		node = Node(type_string, ID=None)
 		if node.ID in self.nodes:
 			print('ERROR: Node ID\'s are not unique!:', str(node), str(self.nodes[node.ID]))
 			exit(-1)
@@ -165,8 +171,8 @@ class Graph:
 			tail = graph.nodes[edge.tail.ID]
 			head = graph.nodes[edge.head.ID]
 			new_edge = Edge(tail, head, edge.width, edge.tail_pos, edge.head_pos)
+			new_edge.reference_edge = edge
 			graph.edges.append(new_edge)
-			print(len(graph.edges), len(self.edges))
 
 		graph.lead_str = self.lead_str
 

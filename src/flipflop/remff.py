@@ -2,8 +2,6 @@ def run(graph):
     FF_edges = [] # TODO remove
     for ID,node in graph.nodes.items():
         if node.type_string in ['ff', 'pidff', 'validff']:
-            node.in_edges
-            node.out_edges
             for in_edge in node.in_edges:
                 for out_edge in node.out_edges:
                     tail = in_edge.tail
@@ -14,6 +12,8 @@ def run(graph):
                     e = graph.create_edge(tail, head, width, tail_pos, head_pos)
                     FF_edges.append(e) # TODO remove
             graph.remove_node(node)
+            
+            
     
     # TODO remove, used for debugging graph.insert_FF
     # for node in graph.nodes.values():

@@ -26,7 +26,10 @@ class Edge:
 		self.obj_dict['attributes']['label'] = '"<'+str(width)+'>"'	
 		tail.add_succ(self)
 		head.add_pred(self)
-
+		# if this edge is part of a copy of another graph
+		# reference_edge will point to the corresponding
+		# edge in the original graph
+		self.reference_edge = None
 
 	# creates a new Edge from a pydot.Edge
 	@staticmethod
@@ -56,6 +59,7 @@ class Edge:
 		attrib.rstrip('];\n')
 		match=re.search('label="(.*?)"', attrib)
 		label=match.group(1)
+		# print(dot_string, label)
 		width=int(label[1:-1])
 
 		tail, head = edge.split('->')

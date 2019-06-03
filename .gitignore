@@ -1,7 +1,8 @@
 # Custom ignores:
+benchresults.csv
+filename*
 output.dot
 unchanged.dot
-pypy_virtualenv
 python2_virtualenv
 pacopt/*
 *.svg

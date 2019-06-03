@@ -1,0 +1,22 @@
+digraph {
+node [shape=record];
+in_1 [label="input 1"][l=5][d=11][w=0][od=100];
+in_2 [label="input 2"][l=5][d=11][w=0][od=100];
+in_3 [label="input 3"][l=5][d=11][w=0][od=100];
+opadd_1[label="{{<left> left | <right> right} | <out> add}" debug="19 1"][l=2][d=11][w=8][od=10];
+opadd_2[label="{{<left> left | <right> right} | <out> add}" debug="19 1"][l=2][d=11][w=8][od=10];
+out_1 [label="ouput 1"][l=5][d=11][w=0][od=100];
+out_2 [label="ouput 2"][l=5][d=11][w=0][od=100];
+out_3 [label="ouput 3"][l=5][d=11][w=0][od=100];
+
+opadd_1:out->opadd_2:left[label="<8>"];
+
+in_1->opadd_1:left[label="<8>"];
+in_2->opadd_1:right[label="<8>"];
+in_2->opadd_2:left[label="<8>"];
+in_3->opadd_2:right[label="<8>"];
+opadd_1:out->out_1[label="<8>"];
+opadd_1:out->out_2[label="<8>"];
+opadd_2:out->out_2[label="<8>"];
+opadd_2:out->out_3[label="<8>"];
+}

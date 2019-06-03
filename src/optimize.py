@@ -61,6 +61,9 @@ parser.add_argument('--calcFF', action='store_true', help='calculates total widt
 parser.add_argument('--findpaths', action='store_true', help='finds all possible paths from any input to any output in the graph')
 parser.add_argument('--insertFF', action='store_true', help='inserts FF into the graph, needs an opt graph')
 parser.add_argument('--nodemerging', action='store_true', help='merges nodes')
+parser.add_argument('--target_delay', action='store', help='assign target delay, defaults to 25')
+parser.add_argument('--mergefactor', action='store', help='[0.0 ,1.0] how much node weight should be considered when deciding which nodes to merge, defaults to .5')
+
 
 
 
@@ -113,8 +116,13 @@ if(args.all or args.tree_height_red_or):
 
 ## Project 2 graph splitting optimization starts here
 
-# TODO get this from the terminal
-target_delay = 10
+target_delay = 25
+if args.target_delay:
+	target_delay = int(args.target_delay)
+mergefactor = .5
+if args.mergefactor:
+	mergefactor = float(args.mergefactor)
+
 
 # TODO make sure this is run for the ones who require it to be done
 if(args.remff):
@@ -127,7 +135,7 @@ if(args.remconcat):
 
 if(args.nodemerging):
 	print('starting to merge nodes')
-	nodemerging.run(graph, target_delay)
+	nodemerging.run(graph, target_delay, mergefactor)
 
 if(args.findpaths):
 	print('start finding paths')
@@ -140,14 +148,13 @@ if(args.greedy):
 if(args.printout):
 	print('start debug print')
 	printout.run(graph)
-if(args.calcFF):
-	print('start calcFF')
-	calcFF.run(graph)
 if(args.insertFF):
 	print('removing flip flops from graph')
 	remff.run(graph)
 	print('start insert FF')
 	insertFF.run(graph)
+
+calcFF.run(graph, original_graph)
 
 # write output graph to file
 print('writing to file:', args.outfile)

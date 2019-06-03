@@ -6,16 +6,18 @@ def run(graph):
     outputnodes = []
     print("Graph contains nodes:", len(graph.nodes.items()))
     for ID,node in graph.nodes.items():
-        if node.type_string in ['in']: #, 'validin', 'pidin']:
+        if node.type_string in ['in', 'validin', 'pidin']:
             inputnodes.append(node)
         if node.type_string in ['out']: # TODO there might be other types of out nodes
             outputnodes.append(node)
 
+    paths = 0
     for node in inputnodes:
-        findpath(node)
-        break
-    print(numpaths)
-    print(allpaths)
+        paths += findpath(node)
+        print(str(node), paths)
+        # break
+
+    print('found', paths)
 
     # pathdict = {} # ID -> [[path1], [path2]]
     # while outputnodes:
@@ -43,22 +45,19 @@ def run(graph):
     #     print(pathdict[inp.ID])
 
 allpaths = []
-numpaths = 0
-# pathdict = {}
+pathdict = {}
 
 def findpath(node):
-    global numpaths
     if node.type_string == 'out':
-        # path.append(node.ID)
-        # allpaths.append(path)
-        numpaths = numpaths + 1
-        if numpaths % 1000000 == 0:
-            print(numpaths)
-        return
-    # p = copy.copy(path)
-    # p.append(node.ID)
+        return 1
+    if node.ID in pathdict:
+        return pathdict[node.ID]
+    sumpaths = 0
     for outedge in node.out_edges:
-        findpath(outedge.head)
+        sumpaths += findpath(outedge.head)
+    pathdict[node.ID] = sumpaths
+    print(sumpaths)
+    return sumpaths
 
 def solved(node, pdict):
     for in_edge in node.in_edges:
